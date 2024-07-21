@@ -28,6 +28,7 @@ messages.RayColors = {
   Gray = "gray",
 }
 
+--- @param values table
 function messages.RayLog(values)
   return {
     label = messages.RayMessageType.Log,
@@ -35,6 +36,15 @@ function messages.RayLog(values)
   }
 end
 
+--- @param content string
+function messages.RayText(content)
+  return {
+    label = messages.RayMessageType.Text,
+    content = content,
+  }
+end
+
+--- @param content string
 function messages.RayHtml(content)
   return {
     label = messages.RayMessageType.HTML,
@@ -42,57 +52,39 @@ function messages.RayHtml(content)
   }
 end
 
--- function RayLog.new(values)
---     return {
---         label = RayMessageType.Log,
---         values = values,
---     }
--- end
---
--- function RayText.new(content)
---     return {
---         label = RayMessageType.Text,
---         content = content,
---     }
--- end
---
--- function RayColor.new(color)
---     return {
---         color = color,
---     }
--- end
---
--- function RayHtml.new(content)
---     return {
---         label = RayMessageType.HTML,
---         content = content,
---     }
--- end
---
--- function RayClearAll.new()
---     return {
---         label = RayMessageType.ClearAll,
---     }
--- end
---
--- function RayConfetti.new()
---     return {
---         label = RayMessageType.Confetti,
---     }
--- end
---
--- function RayCharles.new(content)
---     return {
---         content = content,
---     }
--- end
---
--- function RayNewScreen.new(name)
---     return {
---         label = RayMessageType.NewScreen,
---         name = name,
---     }
--- end
+--- @param color string
+function messages.RayColors(color)
+  return {
+    color = color,
+  }
+end
+
+function messages.RayClearAll()
+  return {
+    label = messages.RayMessageType.ClearAll,
+  }
+end
+
+function messages.RayConfetti()
+  return {
+    label = messages.RayMessageType.Confetti,
+  }
+end
+
+--- @param content string
+function messages.RayCharles(content)
+  return {
+    label = messages.RayMessageType.Charles,
+    content = content,
+  }
+end
+
+--- @param name string
+function messages.RayNewScreen(name)
+  return {
+    label = messages.RayMessageType.NewScreen,
+    name = name,
+  }
+end
 
 return messages
-

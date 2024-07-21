@@ -5,6 +5,9 @@ local util = require("ray.util")
 _RayPayload = {}
 _RayPayload.__index = _RayPayload
 
+--- @param uuid string
+--- @param payloads table
+--- @param meta table
 function _RayPayload.new(uuid, payloads, meta)
   local self = setmetatable({}, _RayPayload)
   self.uuid = uuid
@@ -28,6 +31,9 @@ end
 _RayContent = {}
 _RayContent.__index = _RayContent
 
+--- @param type string
+--- @param content table
+--- @param origin table
 function _RayContent.new(type, content, origin)
   local self = setmetatable({}, _RayContent)
   self.type = type
@@ -40,6 +46,10 @@ end
 _RayOrigin = {}
 _RayOrigin.__index = _RayOrigin
 
+--- @param function_name string
+--- @param file string
+--- @param line_number number
+--- @param hostname string
 function _RayOrigin.new(function_name, file, line_number, hostname)
   local self = setmetatable({}, _RayOrigin)
   -- self.function_name = function_name
@@ -74,6 +84,7 @@ function _Ray:send()
   util.send(self.request)
 end
 
+--- @param values table
 function _Ray:log(values)
   table.insert(
     self.request.payloads,
@@ -85,6 +96,7 @@ function _Ray:log(values)
   return self
 end
 
+--- @param values table
 function _Ray:html(values)
   table.insert(
     self.request.payloads,
