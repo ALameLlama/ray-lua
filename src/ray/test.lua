@@ -8,13 +8,18 @@ function TestRay:testRayFunctionWithNoArgs()
   lu.assertEquals(#result.request.payloads, 0)
 end
 
+function TestRay:testRayFunctionWithStringArg()
+  local result = ray("Hello, Ray Macro")
+  lu.assertEquals(#result.request.payloads, 1)
+end
+
 function TestRay:testRayFunctionWithOneArg()
-  local result = ray():log({ "Hello, Ray Macro" })
+  local result = ray({ "Hello, Ray Macro" })
   lu.assertEquals(#result.request.payloads, 1)
 end
 
 function TestRay:testRayFunctionWithMultipleArgs()
-  local result = ray():log({ "Hello", "Ray Macro" })
+  local result = ray({ "Hello", "Ray Macro" })
   lu.assertEquals(#result.request.payloads, 1)
 end
 

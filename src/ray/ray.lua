@@ -46,21 +46,13 @@ end
 _RayOrigin = {}
 _RayOrigin.__index = _RayOrigin
 
---- @param function_name string
---- @param file string
---- @param line_number number
---- @param hostname string
-function _RayOrigin.new(function_name, file, line_number, hostname)
+function _RayOrigin.new()
   local self = setmetatable({}, _RayOrigin)
-  -- self.function_name = function_name
-  -- self.file = file
-  -- self.line_number = line_number
-  -- self.hostname = hostname
-
-  self.function_name = "lua"
-  self.file = ""      -- replace with actual file
-  self.line_number = 0 -- replace with actual line number
-  self.hostname = "localhost"
+  local info = util.get_caller_info()
+  self.function_name = info.function_name
+  self.file = info.file
+  self.line_number = info.line_number
+  self.hostname = info.hostname
   return self
 end
 
@@ -70,7 +62,7 @@ _Ray.__index = _Ray
 
 function _Ray.new()
   local self = setmetatable({}, _Ray)
-  self.request = _RayPayload.new(util.uuid(), {}, _Meta.new())
+  self.request = _RayPayload.new(util.generate_uuid(), {}, _Meta.new())
   self.is_enabled = true
   return self
 end
@@ -96,7 +88,7 @@ function _Ray:log(values)
   return self
 end
 
---- @param values table
+--- @param values string
 function _Ray:html(values)
   table.insert(
     self.request.payloads,
