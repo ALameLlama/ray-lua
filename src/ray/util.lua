@@ -35,21 +35,29 @@ M.send = function(request)
 end
 
 M.get_caller_info = function()
-  local info = debug.getinfo(5, "Sln")
+  local level = 2
+  local info = debug.getinfo(level, "Sln")
 
-  -- TODO: see if there is a better way to get the current file?
-  -- idk if this will blow up if you have files calling files
-  -- Get the current working directory
-  local cwd = io.popen("pwd"):read("*l")
-  -- Combine the cwd with the relative path
-  local file = cwd .. "/" .. info.short_src
+  -- Iterate over the stack frames
+  while info do
+    -- Check if the function is not defined in the 'ray' or 'util' modules
+    if not info.source:match("/ray.lua$") and not info.source:match("/util.lua$") then
+      local cwd = io.popen("pwd"):read("*l")
+      local file = cwd .. "/" .. info.source:sub(2)
+      return {
+        function_name = info.name or "unknown",
+        file = file,
+        line_number = info.currentline,
+        hostname = "localhost",
+      }
+    end
+    -- Go to the next stack frame
+    level = level + 1
+    info = debug.getinfo(level, "Sln")
+  end
 
-  return {
-    function_name = info.name or "unknown",
-    file = file,
-    line_number = info.currentline,
-    hostname = "localhost",
-  }
+  -- If no function was found that is not in 'ray' or 'util', return nil
+  return nil
 end
 
 return M

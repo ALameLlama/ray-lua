@@ -49,6 +49,11 @@ _RayOrigin.__index = _RayOrigin
 function _RayOrigin.new()
   local self = setmetatable({}, _RayOrigin)
   local info = util.get_caller_info()
+
+  if not info then
+    return nil
+  end
+
   self.function_name = info.function_name
   self.file = info.file
   self.line_number = info.line_number
