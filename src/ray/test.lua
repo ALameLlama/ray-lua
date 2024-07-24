@@ -46,8 +46,28 @@ function TestRay:testRayFunctionWithTableAndTableArgs()
 	lu.assertEquals(result.request.payloads[1].content.values[2], { "Hello", "Table Arg2" })
 end
 
--- TODO: add test for meta
--- TODO: add test for log
--- TODO: add test for html
+-- WARN: This doesn't work as expected. LuaUnit does things interally that breaks this.
+-- function TestRay:testRayFunctionOriginData()
+-- 	local result = ray("Hello, Origin")
+-- 	lu.assertEquals(#result.request.payloads, 1)
+-- 	lu.assertEquals(result.request.payloads[1].origin.file, "src/ray/test.lua")
+-- 	lu.assertEquals(result.request.payloads[1].origin.function_name, "testRayFunctionOriginData")
+-- 	lu.assertEquals(result.request.payloads[1].origin.hostname, "localhost")
+-- 	lu.assertEquals(result.request.payloads[1].origin.line_number, 47)
+-- end
+
+function TestRay:testRayFunctionWithLog()
+	local result = ray():log({ "Hello, Log" })
+	lu.assertEquals(#result.request.payloads, 1)
+	lu.assertEquals(result.request.payloads[1].content.values, { "Hello, Log" })
+	lu.assertEquals(result.request.payloads[1].content.label, messages.RayMessageType.Log)
+end
+
+function TestRay:testRayFunctionWithHtml()
+	local result = ray():html("<div>Hello <strong>Html</strong></div>")
+	lu.assertEquals(#result.request.payloads, 1)
+	lu.assertEquals(result.request.payloads[1].content.content, "<div>Hello <strong>Html</strong></div>")
+	lu.assertEquals(result.request.payloads[1].content.label, messages.RayMessageType.HTML)
+end
 
 os.exit(lu.LuaUnit.run())

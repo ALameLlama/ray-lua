@@ -5,6 +5,8 @@ local cjson = require("cjson")
 
 local debug = require("debug")
 
+local inspect = require("inspect")
+
 local config = {}
 local config_file = loadfile("ray.lua")
 if config_file then
@@ -36,18 +38,20 @@ end
 
 M.get_caller_info = function()
 	local level = 2
+	local last_ray_info = nil
 	local info = debug.getinfo(level, "Sln")
 
 	-- Iterate over the stack frames
 	while info do
-		-- Check if the function is not defined in the 'ray' or 'util' modules
-		if not info.source:match("/ray.lua$") and not info.source:match("/util.lua$") then
-			local cwd = io.popen("pwd"):read("*l")
-			local file = cwd .. "/" .. info.source:sub(2)
+		-- Check if the function is defined in 'ray.lua'
+		if info.source:match("/ray.lua$") then
+			last_ray_info = info
+		elseif last_ray_info then
+			-- This is the first function after the last one in 'ray.lua'
 			return {
 				function_name = info.name or "unknown",
-				file = file,
-				line_number = info.currentline,
+				file = info.short_src or "unknown",
+				line_number = info.currentline or "unknown",
 				hostname = config.hostname or "localhost",
 			}
 		end
@@ -56,8 +60,12 @@ M.get_caller_info = function()
 		info = debug.getinfo(level, "Sln")
 	end
 
-	-- If no function was found that is not in 'ray' or 'util', return nil
-	return nil
+	return {
+		function_name = "unknown",
+		file = "unknown",
+		line_number = "unknown",
+		hostname = config.hostname or "localhost",
+	}
 end
 
 return M
