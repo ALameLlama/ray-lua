@@ -66,6 +66,12 @@ end
 -- 	lu.assertEquals(result.request.payloads[1].origin.line_number, 47)
 -- end
 
+-- WARN: I'm not sure how to test this, other languages have a way to see if it tried to exit
+-- function TestRay:testRayFunctionWithDie()
+-- 	local result = ray():die()
+-- 	lu.assertEquals(result, nil)
+-- end
+
 function TestRay:testRayFunctionWithLog()
 	local result = ray():log({ "Hello, Log" })
 	lu.assertEquals(#result.request.payloads, 1)

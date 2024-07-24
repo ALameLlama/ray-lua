@@ -77,6 +77,10 @@ function _Ray:send()
 	util.send(self.request)
 end
 
+function _Ray:die()
+	os.exit()
+end
+
 --- @param values table
 function _Ray:log(values)
 	table.insert(
