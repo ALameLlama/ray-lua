@@ -1,8 +1,18 @@
 local lu = require("luaunit")
+
 local ray = require("ray")
 local messages = require("ray.messages")
+local util = require("ray.util")
 
-TestRay = {} -- class
+TestRay = {}
+
+function TestRay:setUp()
+	-- WARN: Overwrite the send function to prevent actual sending of data
+	---@diagnostic disable-next-line: duplicate-set-field
+	util.send = function()
+		return true
+	end
+end
 
 function TestRay:testRayFunctionWithNoArgs()
 	local result = ray()

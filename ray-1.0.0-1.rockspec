@@ -31,6 +31,7 @@ build = {
 		["ray"] = "src/ray/ray.lua",
 		["ray.util"] = "src/ray/util.lua",
 		["ray.messages"] = "src/ray/messages.lua",
+		["ray.config"] = "src/ray/config.lua",
 	},
 	copy_directories = { "doc" },
 }

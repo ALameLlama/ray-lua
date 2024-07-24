@@ -5,13 +5,7 @@ local cjson = require("cjson")
 
 local debug = require("debug")
 
-local inspect = require("inspect")
-
-local config = {}
-local config_file = loadfile("ray.lua")
-if config_file then
-	config = config_file()
-end
+local conf = require("ray.config")
 
 local M = {}
 
@@ -22,7 +16,12 @@ end
 M.send = function(request)
 	local request_payload = cjson.encode(request)
 	local req = http_request.new_from_uri(
-		string.format("%s://%s:%s", config.protocol or "http", config.hostname or "localhost", config.port or "23517")
+		string.format(
+			"%s://%s:%s",
+			conf.config.protocol or "http",
+			conf.config.hostname or "localhost",
+			conf.config.port or 23517
+		)
 	)
 
 	req.headers:upsert(":method", "POST")
@@ -52,7 +51,7 @@ M.get_caller_info = function()
 				function_name = info.name or "unknown",
 				file = info.short_src or "unknown",
 				line_number = info.currentline or "unknown",
-				hostname = config.hostname or "localhost",
+				hostname = conf.config.hostname or "localhost",
 			}
 		end
 		-- Go to the next stack frame
@@ -64,7 +63,7 @@ M.get_caller_info = function()
 		function_name = "unknown",
 		file = "unknown",
 		line_number = "unknown",
-		hostname = config.hostname or "localhost",
+		hostname = conf.config.hostname or "localhost",
 	}
 end
 
