@@ -6,7 +6,6 @@ messages.RayMessageType = {
 	HTML = "HTML",
 	ClearAll = "ClearAll",
 	Confetti = "Confetti",
-	Charles = "Charles",
 	NewScreen = "NewScreen",
 }
 
@@ -81,11 +80,9 @@ function messages.RayConfetti()
 	}
 end
 
---- @param content string
-function messages.RayCharles(content)
+function messages.RayCharles()
 	return {
-		label = messages.RayMessageType.Charles,
-		content = content,
+		content = "🎶 🎹 🎷 🕺",
 	}
 end
 

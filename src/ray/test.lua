@@ -110,4 +110,10 @@ function TestRay:testRayFunctionWithConfetti()
 	lu.assertEquals(result.request.payloads[2].content.label, messages.RayMessageType.Confetti)
 end
 
+function TestRay:testRayFunctionWithCharles()
+	local result = ray("Hello Charles"):charles()
+	lu.assertEquals(#result.request.payloads, 2)
+	lu.assertEquals(result.request.payloads[2].content.content, "🎶 🎹 🎷 🕺")
+end
+
 os.exit(lu.LuaUnit.run())
