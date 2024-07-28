@@ -1,5 +1,12 @@
 # ray-lua
 
+<p align="center">
+<a href="https://github.com/ALameLlama/ray-lua/actions/workflows/publish.yml"><img src="https://img.shields.io/github/actions/workflow/status/ALameLlama/ray-lua/.github/workflows/publish.yml" alt="Build + Test Status"></a>
+<a href="https://luarocks.org/modules/ALameLlama/ray"><img src="https://img.shields.io/luarocks/v/ALameLlama/ray" alt="Latest Stable Version"></a>
+<a href="https://github.com/ALameLlama/ray-lua/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
+</p>
+
+
 This is currently WIP and still missing features but has basic ray debugging.
 
 ## Installation
