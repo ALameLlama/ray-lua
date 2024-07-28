@@ -86,4 +86,16 @@ function TestRay:testRayFunctionWithHtml()
 	lu.assertEquals(result.request.payloads[1].content.label, messages.RayMessageType.HTML)
 end
 
+function TestRay:testRayFunctionWithColor()
+	local result = ray("Hello Red"):color("red")
+	lu.assertEquals(#result.request.payloads, 2)
+	lu.assertEquals(result.request.payloads[2].content.color, messages.RayColors.Red)
+end
+
+function TestRay:testRayFunctionWithColorDefault()
+	local result = ray("Hello Gray"):color("fake")
+	lu.assertEquals(#result.request.payloads, 2)
+	lu.assertEquals(result.request.payloads[2].content.color, messages.RayColors.Gray)
+end
+
 os.exit(lu.LuaUnit.run())
