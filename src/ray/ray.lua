@@ -163,6 +163,18 @@ function _Ray:charles()
 	return self
 end
 
+--- @param name string
+function _Ray:new_screen(name)
+	table.insert(
+		self.request.payloads,
+		_RayContent.new(messages.RayContentType.NewScreen, messages.RayNewScreen(name), _RayOrigin.new())
+	)
+
+	self:send()
+
+	return self
+end
+
 function Ray(...)
 	local r = _Ray.new()
 	local args = { ... }

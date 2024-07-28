@@ -116,4 +116,10 @@ function TestRay:testRayFunctionWithCharles()
 	lu.assertEquals(result.request.payloads[2].content.content, "🎶 🎹 🎷 🕺")
 end
 
+function TestRay:testRayFunctionWithNewScreen()
+	local result = ray("Hello New Screen"):new_screen()
+	lu.assertEquals(#result.request.payloads, 2)
+	lu.assertEquals(result.request.payloads[2].content.label, messages.RayMessageType.NewScreen)
+end
+
 os.exit(lu.LuaUnit.run())

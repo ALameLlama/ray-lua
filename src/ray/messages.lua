@@ -29,6 +29,7 @@ messages.RayColors = {
 	Grey = "gray",
 }
 
+-- https://github.com/spatie/ray/blob/main/src/Payloads/LogPayload.php
 --- @param values table
 function messages.RayLog(values)
 	return {
@@ -37,6 +38,7 @@ function messages.RayLog(values)
 	}
 end
 
+-- https://github.com/spatie/ray/blob/main/src/Payloads/TextPayload.php
 --- @param content string
 function messages.RayText(content)
 	return {
@@ -45,6 +47,7 @@ function messages.RayText(content)
 	}
 end
 
+-- https://github.com/spatie/ray/blob/main/src/Payloads/HtmlPayload.php
 --- @param content string
 function messages.RayHtml(content)
 	return {
@@ -53,6 +56,7 @@ function messages.RayHtml(content)
 	}
 end
 
+-- https://github.com/spatie/ray/blob/main/src/Payloads/ColorPayload.php
 --- @param color string
 function messages.RayColor(color)
 	if color == nil then
@@ -68,24 +72,28 @@ function messages.RayColor(color)
 	}
 end
 
+-- https://github.com/spatie/ray/blob/main/src/Payloads/ClearAllPayload.php
 function messages.RayClearAll()
 	return {
 		label = messages.RayMessageType.ClearAll,
 	}
 end
 
+-- https://github.com/spatie/ray/blob/main/src/Payloads/ConfettiPayload.php
 function messages.RayConfetti()
 	return {
 		label = messages.RayMessageType.Confetti,
 	}
 end
 
+-- https://github.com/spatie/ray/blob/main/src/Ray.php#L498
 function messages.RayCharles()
 	return {
 		content = "🎶 🎹 🎷 🕺",
 	}
 end
 
+-- https://github.com/spatie/ray/blob/main/src/Payloads/NewScreenPayload.php
 --- @param name string
 function messages.RayNewScreen(name)
 	return {
