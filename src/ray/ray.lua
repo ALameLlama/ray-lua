@@ -130,6 +130,17 @@ function _Ray:colour(values)
 	return self
 end
 
+function _Ray:clear()
+	table.insert(
+		self.request.payloads,
+		_RayContent.new(messages.RayContentType.ClearAll, messages.RayClearAll(), _RayOrigin.new())
+	)
+
+	self:send()
+
+	return self
+end
+
 function Ray(...)
 	local r = _Ray.new()
 	local args = { ... }

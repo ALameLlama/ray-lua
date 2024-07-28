@@ -98,4 +98,10 @@ function TestRay:testRayFunctionWithColorDefault()
 	lu.assertEquals(result.request.payloads[2].content.color, messages.RayColors.Gray)
 end
 
+function TestRay:testRayFunctionWithClearAll()
+	local result = ray("Hello Clear"):clear()
+	lu.assertEquals(#result.request.payloads, 2)
+	lu.assertEquals(result.request.payloads[2].content.label, messages.RayMessageType.ClearAll)
+end
+
 os.exit(lu.LuaUnit.run())

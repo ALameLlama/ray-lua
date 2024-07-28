@@ -52,3 +52,4 @@ Here's a list of the main functions provided by ray in lua:
   - Gray
 - `ray():html(html_content)`: Logs HTML content to the ray debugger.
 - `ray():die()`: Sends a exit signal after logging to ray debugger.
+- `ray():clear()`: Clear the current Logs within ray debugger.
