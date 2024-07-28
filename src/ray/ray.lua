@@ -105,6 +105,31 @@ function _Ray:html(values)
 	return self
 end
 
+--- @param values string
+function _Ray:color(values)
+	table.insert(
+		self.request.payloads,
+		_RayContent.new(messages.RayContentType.Color, messages.RayColor(values), _RayOrigin.new())
+	)
+
+	self:send()
+
+	return self
+end
+
+-- Need to make sure we can call the color function with the correct spelling
+--- @param values string
+function _Ray:colour(values)
+	table.insert(
+		self.request.payloads,
+		_RayContent.new(messages.RayContentType.Color, messages.RayColor(values), _RayOrigin.new())
+	)
+
+	self:send()
+
+	return self
+end
+
 function Ray(...)
 	local r = _Ray.new()
 	local args = { ... }

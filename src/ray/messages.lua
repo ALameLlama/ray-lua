@@ -19,6 +19,7 @@ messages.RayContentType = {
 	NewScreen = "new_screen",
 }
 
+messages.defaultColor = "Gray"
 messages.RayColors = {
 	Green = "green",
 	Orange = "orange",
@@ -26,6 +27,7 @@ messages.RayColors = {
 	Purple = "purple",
 	Blue = "blue",
 	Gray = "gray",
+	Grey = "gray",
 }
 
 --- @param values table
@@ -53,9 +55,17 @@ function messages.RayHtml(content)
 end
 
 --- @param color string
-function messages.RayColors(color)
+function messages.RayColor(color)
+	if color == nil then
+		color = messages.defaultColor
+	else
+		color = color:sub(1, 1):upper() .. color:sub(2):lower()
+	end
+
+	local colorEnum = messages.RayColors[color] or messages.RayColors.Gray
+
 	return {
-		color = color,
+		color = colorEnum,
 	}
 end
 
