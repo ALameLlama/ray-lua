@@ -29,4 +29,4 @@ jobs:
           LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
         run: |
           luarocks pack ./*.rockspec
-          luarocks upload *.rock --api-key=$LUAROCKS_API_KEY --force
+          luarocks upload *.rockspec --api-key=$LUAROCKS_API_KEY --force
