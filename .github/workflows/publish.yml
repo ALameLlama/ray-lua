@@ -1,4 +1,4 @@
-name: Publish LuaRocks 🌔
+name: Publish LuaRocks 🌕
 
 on:
   release:
