@@ -24,6 +24,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y luarocks
 
+      - name: Run Tests
+        run: |
+          luarocks make --local
+          luarocks test
+
       - name: Build and Upload Rock
         env:
           LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
