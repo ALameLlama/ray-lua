@@ -104,4 +104,10 @@ function TestRay:testRayFunctionWithClearAll()
 	lu.assertEquals(result.request.payloads[2].content.label, messages.RayMessageType.ClearAll)
 end
 
+function TestRay:testRayFunctionWithConfetti()
+	local result = ray("Hello Confetti"):confetti()
+	lu.assertEquals(#result.request.payloads, 2)
+	lu.assertEquals(result.request.payloads[2].content.label, messages.RayMessageType.Confetti)
+end
+
 os.exit(lu.LuaUnit.run())

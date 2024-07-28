@@ -141,6 +141,17 @@ function _Ray:clear()
 	return self
 end
 
+function _Ray:confetti()
+	table.insert(
+		self.request.payloads,
+		_RayContent.new(messages.RayContentType.Confetti, messages.RayConfetti(), _RayOrigin.new())
+	)
+
+	self:send()
+
+	return self
+end
+
 function Ray(...)
 	local r = _Ray.new()
 	local args = { ... }
