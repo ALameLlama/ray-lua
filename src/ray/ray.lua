@@ -85,7 +85,7 @@ end
 function _Ray:log(values)
 	table.insert(
 		self.request.payloads,
-		_RayContent.new(messages.RayContentType.Log, messages.RayLog(values), _RayOrigin.new())
+		_RayContent.new(messages.content_type.log, messages.log(values), _RayOrigin.new())
 	)
 
 	self:send()
@@ -97,7 +97,7 @@ end
 function _Ray:html(values)
 	table.insert(
 		self.request.payloads,
-		_RayContent.new(messages.RayContentType.Custom, messages.RayHtml(values), _RayOrigin.new())
+		_RayContent.new(messages.content_type.custom, messages.html(values), _RayOrigin.new())
 	)
 
 	self:send()
@@ -109,7 +109,7 @@ end
 function _Ray:color(values)
 	table.insert(
 		self.request.payloads,
-		_RayContent.new(messages.RayContentType.Color, messages.RayColor(values), _RayOrigin.new())
+		_RayContent.new(messages.content_type.color, messages.color(values), _RayOrigin.new())
 	)
 
 	self:send()
@@ -122,7 +122,7 @@ end
 function _Ray:colour(values)
 	table.insert(
 		self.request.payloads,
-		_RayContent.new(messages.RayContentType.Color, messages.RayColor(values), _RayOrigin.new())
+		_RayContent.new(messages.content_type.color, messages.color(values), _RayOrigin.new())
 	)
 
 	self:send()
@@ -133,7 +133,7 @@ end
 function _Ray:clear()
 	table.insert(
 		self.request.payloads,
-		_RayContent.new(messages.RayContentType.ClearAll, messages.RayClearAll(), _RayOrigin.new())
+		_RayContent.new(messages.content_type.clear_all, messages.clear_all(), _RayOrigin.new())
 	)
 
 	self:send()
@@ -144,7 +144,7 @@ end
 function _Ray:confetti()
 	table.insert(
 		self.request.payloads,
-		_RayContent.new(messages.RayContentType.Confetti, messages.RayConfetti(), _RayOrigin.new())
+		_RayContent.new(messages.content_type.confetti, messages.confetti(), _RayOrigin.new())
 	)
 
 	self:send()
@@ -155,7 +155,7 @@ end
 function _Ray:charles()
 	table.insert(
 		self.request.payloads,
-		_RayContent.new(messages.RayContentType.Custom, messages.RayCharles(), _RayOrigin.new())
+		_RayContent.new(messages.content_type.custom, messages.charles(), _RayOrigin.new())
 	)
 
 	self:send()
@@ -167,7 +167,7 @@ end
 function _Ray:new_screen(name)
 	table.insert(
 		self.request.payloads,
-		_RayContent.new(messages.RayContentType.NewScreen, messages.RayNewScreen(name), _RayOrigin.new())
+		_RayContent.new(messages.content_type.new_screen, messages.new_screen(name), _RayOrigin.new())
 	)
 
 	self:send()

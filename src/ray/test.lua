@@ -23,27 +23,27 @@ function TestRay:testRayFunctionWithStringArg()
 	local result = ray("Hello, String Arg")
 	lu.assertEquals(#result.request.payloads, 1)
 	lu.assertEquals(result.request.payloads[1].content.values, { "Hello, String Arg" })
-	lu.assertEquals(result.request.payloads[1].content.label, messages.RayMessageType.Log)
+	lu.assertEquals(result.request.payloads[1].content.label, messages.message_type.log)
 end
 
 function TestRay:testRayFunctionWithTableArg()
 	local result = ray({ "Hello", "Table Arg" })
 	lu.assertEquals(#result.request.payloads, 1)
 	lu.assertEquals(result.request.payloads[1].content.values, { { "Hello", "Table Arg" } })
-	lu.assertEquals(result.request.payloads[1].content.label, messages.RayMessageType.Log)
+	lu.assertEquals(result.request.payloads[1].content.label, messages.message_type.log)
 end
 
 function TestRay:testRayFunctionWithMultipleArgs()
 	local result = ray("Hello", "Multiple Args")
 	lu.assertEquals(#result.request.payloads, 1)
 	lu.assertEquals(result.request.payloads[1].content.values, { "Hello", "Multiple Args" })
-	lu.assertEquals(result.request.payloads[1].content.label, messages.RayMessageType.Log)
+	lu.assertEquals(result.request.payloads[1].content.label, messages.message_type.log)
 end
 
 function TestRay:testRayFunctionWithTableAndStringArgs()
 	local result = ray({ "Hello", "Table Arg" }, "Hello, String Arg")
 	lu.assertEquals(#result.request.payloads, 1)
-	lu.assertEquals(result.request.payloads[1].content.label, messages.RayMessageType.Log)
+	lu.assertEquals(result.request.payloads[1].content.label, messages.message_type.log)
 	lu.assertEquals(result.request.payloads[1].content.values[1], { "Hello", "Table Arg" })
 	lu.assertEquals(result.request.payloads[1].content.values[2], "Hello, String Arg")
 end
@@ -51,7 +51,7 @@ end
 function TestRay:testRayFunctionWithTableAndTableArgs()
 	local result = ray({ "Hello", "Table Arg1" }, { "Hello", "Table Arg2" })
 	lu.assertEquals(#result.request.payloads, 1)
-	lu.assertEquals(result.request.payloads[1].content.label, messages.RayMessageType.Log)
+	lu.assertEquals(result.request.payloads[1].content.label, messages.message_type.log)
 	lu.assertEquals(result.request.payloads[1].content.values[1], { "Hello", "Table Arg1" })
 	lu.assertEquals(result.request.payloads[1].content.values[2], { "Hello", "Table Arg2" })
 end
@@ -76,38 +76,50 @@ function TestRay:testRayFunctionWithLog()
 	local result = ray():log({ "Hello, Log" })
 	lu.assertEquals(#result.request.payloads, 1)
 	lu.assertEquals(result.request.payloads[1].content.values, { "Hello, Log" })
-	lu.assertEquals(result.request.payloads[1].content.label, messages.RayMessageType.Log)
+	lu.assertEquals(result.request.payloads[1].content.label, messages.message_type.log)
 end
 
 function TestRay:testRayFunctionWithHtml()
 	local result = ray():html("<div>Hello <strong>Html</strong></div>")
 	lu.assertEquals(#result.request.payloads, 1)
 	lu.assertEquals(result.request.payloads[1].content.content, "<div>Hello <strong>Html</strong></div>")
-	lu.assertEquals(result.request.payloads[1].content.label, messages.RayMessageType.HTML)
+	lu.assertEquals(result.request.payloads[1].content.label, messages.message_type.html)
 end
 
 function TestRay:testRayFunctionWithColor()
 	local result = ray("Hello Red"):color("red")
 	lu.assertEquals(#result.request.payloads, 2)
-	lu.assertEquals(result.request.payloads[2].content.color, messages.RayColors.Red)
+	lu.assertEquals(result.request.payloads[2].content.color, messages.colors.red)
+end
+
+function TestRay:testRayFunctionWithColorWithUpperCase()
+	local result = ray("Hello Red"):color("Green")
+	lu.assertEquals(#result.request.payloads, 2)
+	lu.assertEquals(result.request.payloads[2].content.color, messages.colors.green)
+end
+
+function TestRay:testRayFunctionWithColorWithFullUpperCase()
+	local result = ray("Hello Red"):color("BLUE")
+	lu.assertEquals(#result.request.payloads, 2)
+	lu.assertEquals(result.request.payloads[2].content.color, messages.colors.blue)
 end
 
 function TestRay:testRayFunctionWithColorDefault()
 	local result = ray("Hello Gray"):color("fake")
 	lu.assertEquals(#result.request.payloads, 2)
-	lu.assertEquals(result.request.payloads[2].content.color, messages.RayColors.Gray)
+	lu.assertEquals(result.request.payloads[2].content.color, messages.colors.gray)
 end
 
 function TestRay:testRayFunctionWithClearAll()
 	local result = ray("Hello Clear"):clear()
 	lu.assertEquals(#result.request.payloads, 2)
-	lu.assertEquals(result.request.payloads[2].content.label, messages.RayMessageType.ClearAll)
+	lu.assertEquals(result.request.payloads[2].content.label, messages.message_type.clear_all)
 end
 
 function TestRay:testRayFunctionWithConfetti()
 	local result = ray("Hello Confetti"):confetti()
 	lu.assertEquals(#result.request.payloads, 2)
-	lu.assertEquals(result.request.payloads[2].content.label, messages.RayMessageType.Confetti)
+	lu.assertEquals(result.request.payloads[2].content.label, messages.message_type.confetti)
 end
 
 function TestRay:testRayFunctionWithCharles()
@@ -119,7 +131,7 @@ end
 function TestRay:testRayFunctionWithNewScreen()
 	local result = ray("Hello New Screen"):new_screen()
 	lu.assertEquals(#result.request.payloads, 2)
-	lu.assertEquals(result.request.payloads[2].content.label, messages.RayMessageType.NewScreen)
+	lu.assertEquals(result.request.payloads[2].content.label, messages.message_type.new_screen)
 end
 
 os.exit(lu.LuaUnit.run())

@@ -1,93 +1,94 @@
 local messages = {}
 
-messages.RayMessageType = {
-	Log = "Log",
-	Text = "Text",
-	HTML = "HTML",
-	ClearAll = "ClearAll",
-	Confetti = "Confetti",
-	NewScreen = "NewScreen",
+messages.message_type = {
+	log = "Log",
+	text = "Text",
+	html = "HTML",
+	clear_all = "ClearAll",
+	confetti = "Confetti",
+	new_screen = "NewScreen",
 }
 
-messages.RayContentType = {
-	Log = "log",
-	Custom = "custom",
-	Color = "color",
-	ClearAll = "clear_all",
-	Confetti = "confetti",
-	NewScreen = "new_screen",
+messages.content_type = {
+	log = "log",
+	custom = "custom",
+	color = "color",
+	clear_all = "clear_all",
+	confetti = "confetti",
+	new_screen = "new_screen",
 }
 
-messages.defaultColor = "Gray"
-messages.RayColors = {
-	Green = "green",
-	Orange = "orange",
-	Red = "red",
-	Purple = "purple",
-	Blue = "blue",
-	Gray = "gray",
-	Grey = "gray",
+messages.colors = {
+	green = "green",
+	orange = "orange",
+	red = "red",
+	purple = "purple",
+	blue = "blue",
+	gray = "gray",
+	grey = "gray",
 }
+
+messages.default_color = messages.colors.gray
 
 -- https://github.com/spatie/ray/blob/main/src/Payloads/LogPayload.php
 --- @param values table
-function messages.RayLog(values)
+function messages.log(values)
 	return {
-		label = messages.RayMessageType.Log,
+		label = messages.message_type.log,
 		values = values,
 	}
 end
 
 -- https://github.com/spatie/ray/blob/main/src/Payloads/TextPayload.php
 --- @param content string
-function messages.RayText(content)
+function messages.text(content)
 	return {
-		label = messages.RayMessageType.Text,
+		label = messages.message_type.text,
 		content = content,
 	}
 end
 
 -- https://github.com/spatie/ray/blob/main/src/Payloads/HtmlPayload.php
 --- @param content string
-function messages.RayHtml(content)
+function messages.html(content)
 	return {
-		label = messages.RayMessageType.HTML,
+		label = messages.message_type.html,
 		content = content,
 	}
 end
 
 -- https://github.com/spatie/ray/blob/main/src/Payloads/ColorPayload.php
 --- @param color string
-function messages.RayColor(color)
+function messages.color(color)
 	if color == nil then
-		color = messages.defaultColor
+		color = messages.default_color
 	else
-		color = color:sub(1, 1):upper() .. color:sub(2):lower()
+		color = color:lower()
 	end
 
-	local colorEnum = messages.RayColors[color] or messages.RayColors.Gray
+	local color_enum = messages.colors[color] or messages.colors.gray
 
 	return {
-		color = colorEnum,
+		color = color_enum,
 	}
 end
 
 -- https://github.com/spatie/ray/blob/main/src/Payloads/ClearAllPayload.php
-function messages.RayClearAll()
+function messages.clear_all()
 	return {
-		label = messages.RayMessageType.ClearAll,
+		label = messages.message_type.clear_all,
 	}
 end
 
 -- https://github.com/spatie/ray/blob/main/src/Payloads/ConfettiPayload.php
-function messages.RayConfetti()
+function messages.confetti()
 	return {
-		label = messages.RayMessageType.Confetti,
+		label = messages.message_type.confetti,
 	}
 end
 
 -- https://github.com/spatie/ray/blob/main/src/Ray.php#L498
-function messages.RayCharles()
+function messages.charles()
 	return {
 		content = "🎶 🎹 🎷 🕺",
 	}
@@ -95,9 +96,9 @@ end
 
 -- https://github.com/spatie/ray/blob/main/src/Payloads/NewScreenPayload.php
 --- @param name string
-function messages.RayNewScreen(name)
+function messages.new_screen(name)
 	return {
-		label = messages.RayMessageType.NewScreen,
+		label = messages.message_type.new_screen,
 		name = name,
 	}
 end
