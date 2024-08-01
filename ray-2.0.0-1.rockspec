@@ -1,9 +1,9 @@
 rockspec_format = "3.0"
 package = "ray"
-version = "1.1.0-1"
+version = "2.0.0-1"
 source = {
 	url = "git+https://github.com/ALameLlama/ray-lua",
-	tag = "v1.1.0",
+	tag = "v2.0.0",
 }
 description = {
 	summary = "Lua support for Ray Debugger by Spatie",
@@ -23,20 +23,22 @@ dependencies = {
 	"lua >= 5.1, < 5.5",
 	"http >= 0.4",
 	"lua-cjson >= 2.1",
+	"luafilesystem >= 1.8",
 	"uuid >= 0.3",
 }
 build = {
 	type = "builtin",
 	modules = {
-		["ray"] = "src/ray/ray.lua",
-		["ray.util"] = "src/ray/util.lua",
-		["ray.messages"] = "src/ray/messages.lua",
-		["ray.config"] = "src/ray/config.lua",
+		["ray"] = "src/helpers.lua", -- this emulates php global helper functions
+		["ray.ray"] = "src/ray.lua",
+		["ray.request"] = "src/request.lua",
+		["ray.settings.settings"] = "src/settings/settings.lua",
+		["ray.settings.settings_factory"] = "src/settings/settings_factory.lua",
 	},
 	copy_directories = { "doc" },
 }
 test = {
 	type = "command",
-	script = "src/ray/test.lua",
+	script = "src/tests/ray.lua",
 }
 test_dependencies = { "luaunit >= 3.4" }
