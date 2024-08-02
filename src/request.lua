@@ -2,7 +2,13 @@
 
 local json = require("cjson")
 
-Request = {}
+--TODO: Implement payload class
+
+---@class Request
+---@field protected uuid string
+---@field protected payloads table
+---@field protected meta table
+local Request = {}
 Request.__index = Request
 
 ---@param uuid string
@@ -19,6 +25,7 @@ function Request:new(uuid, payloads, meta)
   return obj
 end
 
+---@return table
 function Request:to_array()
   local payloads = {}
 
@@ -33,6 +40,7 @@ function Request:to_array()
   }
 end
 
+---@return string
 function Request:to_json()
   return json.encode(self:to_array())
 end

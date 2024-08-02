@@ -2,26 +2,30 @@
 
 local lfs = require("lfs")
 
+---@type Settings
 local Settings = require("ray.settings.settings")
 
-SettingsFactory = {}
+---@class SettingsFactory
+---@field public cache table<string, string>
+local SettingsFactory = {}
 SettingsFactory.__index = SettingsFactory
-
 SettingsFactory.cache = {}
 
+---@return SettingsFactory
 function SettingsFactory:new()
-  local obj = {}
-  setmetatable(obj, SettingsFactory)
+  local obj = setmetatable({}, SettingsFactory)
 
   return obj
 end
 
----@param settings table
+---@param settings SettingsOptions
+---@return Settings
 function SettingsFactory.create_from_array(settings)
   return Settings:new(settings)
 end
 
 ---@param config_directory string
+---@return Settings
 function SettingsFactory.create_from_config_file(config_directory)
   local self = SettingsFactory:new()
   local setting_values = self:get_settings_from_config_file(config_directory)
@@ -35,6 +39,7 @@ function SettingsFactory.create_from_config_file(config_directory)
 end
 
 ---@param config_directory string
+---@return SettingsOptions
 function SettingsFactory:get_settings_from_config_file(config_directory)
   local config_file_path = self:search_config_files(config_directory)
 
@@ -44,12 +49,15 @@ function SettingsFactory:get_settings_from_config_file(config_directory)
     return {}
   end
 
+  ---@type SettingsOptions
   local options = dofile(config_file_path)
 
   return options or {}
 end
 
+---@protected
 ---@param config_directory string
+---@return string
 function SettingsFactory:search_config_files(config_directory)
   if config_directory == nil then
     config_directory = lfs.currentdir()
@@ -62,7 +70,9 @@ function SettingsFactory:search_config_files(config_directory)
   return SettingsFactory.cache[config_directory]
 end
 
+---@protected
 ---@param config_directory string
+---@return string
 function SettingsFactory:search_config_files_on_disk(config_directory)
   local config_names = {
     "ray.lua",

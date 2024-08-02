@@ -32,6 +32,7 @@ build = {
 		["ray"] = "src/helpers.lua", -- this emulates php global helper functions
 		["ray.ray"] = "src/ray.lua",
 		["ray.request"] = "src/request.lua",
+		["ray.client"] = "src/client.lua",
 		["ray.settings.settings"] = "src/settings/settings.lua",
 		["ray.settings.settings_factory"] = "src/settings/settings_factory.lua",
 	},
