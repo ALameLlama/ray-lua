@@ -1,4 +1,5 @@
 -- https://github.com/spatie/ray/blob/main/src/helpers.php
+---@diagnostic disable: lowercase-global
 
 local SettingsFactory = require("ray.settings.settings_factory")
 local Ray = require("ray.ray")

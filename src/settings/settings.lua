@@ -24,7 +24,7 @@ Settings.__index = Settings
 
 ---@param settings SettingsOptions?
 ---@return Settings
-function Settings:new(settings)
+function Settings.new(settings)
   local obj = setmetatable({}, Settings)
 
   -- Use rawset to avoid infinite recursion in __newindex
