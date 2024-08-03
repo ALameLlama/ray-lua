@@ -1,7 +1,7 @@
 -- https://github.com/spatie/ray/blob/main/src/Client.php
 
-local http_request = require("http.request")
-local cjson = require("cjson")
+local http = require("http.request")
+local json = require("cjson")
 
 ---@class Client
 ---@field protected port_number integer
@@ -45,7 +45,7 @@ end
 function Client:perform_availability_check()
   local success = false
   local url = "http://" .. self.host .. ":" .. self.port_number .. "/_availability_check"
-  local req = http_request.new_from_uri(url)
+  local req = http.new_from_uri(url)
   req.headers:upsert(":method", "GET")
 
   local headers, _ = req:go()
@@ -67,11 +67,11 @@ function Client:send(request)
   end
 
   local url = "http://" .. self.host .. ":" .. self.port_number
-  local req = http_request.new_from_uri(url)
+  local req = http.new_from_uri(url)
   req.headers:upsert(":method", "POST")
   req.headers:upsert("content-type", "application/json")
 
-  local request_payload = cjson.encode(request)
+  local request_payload = json.encode(request)
   req:set_body(request_payload)
 
   local headers, _ = req:go()
