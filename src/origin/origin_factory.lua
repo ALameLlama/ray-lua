@@ -6,7 +6,8 @@ OriginFactory.__index = OriginFactory
 
 ---@return Origin
 function OriginFactory:get_origin()
-  error("Method get_origin must be implemented")
+  -- This method should be overridden by subclasses
+  error("Method 'get_origin' must be implemented in subclass")
 end
 
 return OriginFactory

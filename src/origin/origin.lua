@@ -17,13 +17,13 @@ Origin.__index = Origin
 ---@param line_number string?
 ---@param hostname string?
 function Origin.new(file, line_number, hostname)
-  local obj = setmetatable({}, Origin)
+  local self = setmetatable({}, Origin)
 
-  obj.file = file
-  obj.line_number = line_number
-  obj.hostname = hostname or Hostname:get()
+  self.file = file
+  self.line_number = line_number
+  self.hostname = hostname or Hostname:get()
 
-  return obj
+  return self
 end
 
 ---@return table

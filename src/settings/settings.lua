@@ -1,12 +1,12 @@
 -- https://github.com/spatie/ray/blob/main/src/Settings/Settings.php
 
 ---@class SettingsOptions
----@field enable boolean
----@field host string
----@field port number
----@field remote_path string?
----@field local_path string?
----@field always_send_raw_values boolean
+---@field protected enable boolean
+---@field protected host string
+---@field protected port number
+---@field protected remote_path string?
+---@field protected local_path string?
+---@field protected always_send_raw_values boolean
 
 ---@class Settings
 ---@field protected settings SettingsOptions
@@ -25,12 +25,12 @@ Settings.__index = Settings
 ---@param settings SettingsOptions?
 ---@return Settings
 function Settings.new(settings)
-  local obj = setmetatable({}, Settings)
+  local self = setmetatable({}, Settings)
 
   -- Use rawset to avoid infinite recursion in __newindex
-  rawset(obj, "settings", settings or {})
-  rawset(obj, "loaded_using_settings_file", false)
-  rawset(obj, "default_settings", {
+  rawset(self, "settings", settings or {})
+  rawset(self, "loaded_using_settings_file", false)
+  rawset(self, "default_settings", {
     enable = true,
     host = "localhost",
     port = 23517,
@@ -39,13 +39,13 @@ function Settings.new(settings)
     always_send_raw_values = false,
   })
 
-  for k, v in pairs(obj.default_settings) do
-    if obj.settings[k] == nil then
-      obj.settings[k] = v
+  for k, v in pairs(self.default_settings) do
+    if self.settings[k] == nil then
+      self.settings[k] = v
     end
   end
 
-  return obj
+  return self
 end
 
 ---@return Settings

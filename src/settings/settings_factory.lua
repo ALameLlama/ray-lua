@@ -81,6 +81,7 @@ function SettingsFactory:search_config_files_on_disk(config_directory)
       end
     end
 
+    --TODO: handle nil
     local parent_directory = config_directory:match("(.*[/\\])")
 
     if parent_directory == config_directory then

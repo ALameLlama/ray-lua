@@ -14,15 +14,14 @@ Request.__index = Request
 ---@param uuid string
 ---@param payloads table
 ---@param meta table
-function Request:new(uuid, payloads, meta)
-  local obj = {}
-  setmetatable(obj, Request)
+function Request.new(uuid, payloads, meta)
+  local self = setmetatable({}, Request)
 
-  obj.uuid = uuid
-  obj.payloads = payloads
-  obj.meta = meta or {}
+  self.uuid = uuid
+  self.payloads = payloads
+  self.meta = meta or {}
 
-  return obj
+  return self
 end
 
 ---@return table

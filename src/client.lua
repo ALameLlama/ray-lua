@@ -16,13 +16,13 @@ Client.cache = {}
 ---@param host string
 ---@return Client
 function Client.new(port_number, host)
-  local obj = setmetatable({}, Client)
+  local self = setmetatable({}, Client)
 
-  obj.port_number = port_number or 23517
-  obj.host = host or "localhost"
-  obj.fingerprint = obj.host .. ":" .. obj.port_number
+  self.port_number = port_number or 23517
+  self.host = host or "localhost"
+  self.fingerprint = self.host .. ":" .. self.port_number
 
-  return obj
+  return self
 end
 
 ---@return boolean
