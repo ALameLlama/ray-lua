@@ -17,27 +17,27 @@ Origin.__index = Origin
 ---@param line_number string?
 ---@param hostname string?
 function Origin.new(file, line_number, hostname)
-  local self = setmetatable({}, Origin)
+	local self = setmetatable({}, Origin)
 
-  self.file = file
-  self.line_number = line_number
-  self.hostname = hostname or Hostname:get()
+	self.file = file
+	self.line_number = line_number
+	self.hostname = hostname or Hostname:get()
 
-  return self
+	return self
 end
 
 ---@return table
 function Origin:to_array()
-  return {
-    file = self.file,
-    line_number = self.line_number,
-    hostname = self.hostname,
-  }
+	return {
+		file = self.file,
+		line_number = self.line_number,
+		hostname = self.hostname,
+	}
 end
 
 ---@return string
 function Origin:fingerprint()
-  return md5.sumhexa(json.encode(self:to_array()))
+	return md5.sumhexa(json.encode(self:to_array()))
 end
 
 return Origin

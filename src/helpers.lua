@@ -5,12 +5,12 @@ local SettingsFactory = require("ray.settings.settings_factory")
 local Ray = require("ray.ray")
 
 function ray(...)
-  local settings = SettingsFactory.create_from_config_file()
-  local ray_instance = Ray:new(settings)
+	local settings = SettingsFactory.create_from_config_file()
+	local ray_instance = Ray:new(settings)
 
-  return ray_instance:send(...)
+	return ray_instance:send(...)
 end
 
 function rd(...)
-  return ray(...):die()
+	return ray(...):die()
 end

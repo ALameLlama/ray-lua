@@ -13,10 +13,10 @@ LogPayload.__index = LogPayload
 
 -- Use __call here to get a nicer constructor LogPayload() instead of LogPayload.new()
 setmetatable(LogPayload, {
-  __index = Payload,
-  __call = function(cls, ...)
-    return cls.new(...)
-  end,
+	__index = Payload,
+	__call = function(cls, ...)
+		return cls.new(...)
+	end,
 })
 
 ---@overload fun(values: table): LogPayload
@@ -24,23 +24,23 @@ setmetatable(LogPayload, {
 ---@param meta table
 ---@return LogPayload
 function LogPayload.new(values, meta)
-  local self = setmetatable({}, LogPayload)
+	local self = setmetatable({}, LogPayload)
 
-  self.values = values
-  self.meta = meta or {}
+	self.values = values
+	self.meta = meta or {}
 
-  return self
+	return self
 end
 
 ---@return string
 function LogPayload:get_type()
-  return "log"
+	return "log"
 end
 
 ---@return table
 function LogPayload:get_content()
-  return {
-    content = self.values,
-    meta = self.meta,
-  }
+	return {
+		content = self.values,
+		meta = self.meta,
+	}
 end

@@ -8,25 +8,25 @@ Hostname.hostname = nil
 
 ---@return string?
 function Hostname:get()
-  -- Use os.execute or another method to get the hostname
-  if self.hostname == nil then
-    local handle = io.popen("hostname")
+	-- Use os.execute or another method to get the hostname
+	if self.hostname == nil then
+		local handle = io.popen("hostname")
 
-    if handle == nil then
-      return nil
-    end
+		if handle == nil then
+			return nil
+		end
 
-    self.hostname = handle:read("*a")
+		self.hostname = handle:read("*a")
 
-    handle:close()
-  end
+		handle:close()
+	end
 
-  return self.hostname
+	return self.hostname
 end
 
 ---@param hostname string
 function Hostname:set(hostname)
-  self.hostname = hostname
+	self.hostname = hostname
 end
 
 return Hostname

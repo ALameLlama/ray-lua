@@ -18,66 +18,66 @@ PayloadFactory.__index = PayloadFactory
 ---@param arguments table
 ---@return table
 function PayloadFactory.create_for_values(arguments)
-  return PayloadFactory.new(arguments):get_payloads()
+	return PayloadFactory.new(arguments):get_payloads()
 end
 
 ---@param callable function
 function PayloadFactory:register_payload_finder(callable)
-  self.payload_finder = callable
+	self.payload_finder = callable
 end
 
 ---@param values table
 ---@return PayloadFactory
 function PayloadFactory.new(values)
-  local self = setmetatable({}, PayloadFactory)
+	local self = setmetatable({}, PayloadFactory)
 
-  self.values = values
+	self.values = values
 
-  return self
+	return self
 end
 
 ---@return table
 function PayloadFactory:get_payloads()
-  local payloads = {}
+	local payloads = {}
 
-  for _, value in ipairs(self.values) do
-    table.insert(payloads, self:get_payload(value))
-  end
+	for _, value in ipairs(self.values) do
+		table.insert(payloads, self:get_payload(value))
+	end
 
-  return payloads
+	return payloads
 end
 
 ---@protected
 ---@param value any
 ---@return Payload
 function PayloadFactory:get_payload(value)
-  if self.payload_finder then
-    local payload = self.payload_finder(value)
-    if payload then
-      return payload
-    end
-  end
+	if self.payload_finder then
+		local payload = self.payload_finder(value)
+		if payload then
+			return payload
+		end
+	end
 
-  if type(value) == "boolean" then
-    return BoolPayload()
-  end
+	if type(value) == "boolean" then
+		return BoolPayload()
+	end
 
-  if value == nil then
-    return NullPayload()
-  end
+	if value == nil then
+		return NullPayload()
+	end
 
-  -- PHP uses Carbon a popular date-time library, idk if lua has something similar.
-  --TODO: see if we want to add something like this in the future
-  -- if type(value) == "table" and value.is_carbon then
-  --   return CarbonPayload.new(value)
-  -- end
+	-- PHP uses Carbon a popular date-time library, idk if lua has something similar.
+	--TODO: see if we want to add something like this in the future
+	-- if type(value) == "table" and value.is_carbon then
+	--   return CarbonPayload.new(value)
+	-- end
 
-  -- In the PHP version, the ArgumentConverter class is used to convert the value to a primitive value.
-  -- Lua is a lot more of a simple language than PHP, so we can just use the value directly.
-  -- local primitive_value = ArgumentConverter.convert_to_primitive(value)
-  -- return LogPayload(primitive_value, value)
+	-- In the PHP version, the ArgumentConverter class is used to convert the value to a primitive value.
+	-- Lua is a lot more of a simple language than PHP, so we can just use the value directly.
+	-- local primitive_value = ArgumentConverter.convert_to_primitive(value)
+	-- return LogPayload(primitive_value, value)
 
-  return LogPayload(value, value)
+	return LogPayload(value, value)
 end
 
 return PayloadFactory

@@ -15,31 +15,31 @@ Request.__index = Request
 ---@param payloads table
 ---@param meta table
 function Request.new(uuid, payloads, meta)
-  local self = setmetatable({}, Request)
+	local self = setmetatable({}, Request)
 
-  self.uuid = uuid
-  self.payloads = payloads
-  self.meta = meta or {}
+	self.uuid = uuid
+	self.payloads = payloads
+	self.meta = meta or {}
 
-  return self
+	return self
 end
 
 ---@return table
 function Request:to_array()
-  local payloads = {}
+	local payloads = {}
 
-  for _, payload in ipairs(self.payloads) do
-    table.insert(payloads, payload:to_array())
-  end
+	for _, payload in ipairs(self.payloads) do
+		table.insert(payloads, payload:to_array())
+	end
 
-  return {
-    uuid = self.uuid,
-    payloads = payloads,
-    meta = self.meta,
-  }
+	return {
+		uuid = self.uuid,
+		payloads = payloads,
+		meta = self.meta,
+	}
 end
 
 ---@return string
 function Request:to_json()
-  return json.encode(self:to_array())
+	return json.encode(self:to_array())
 end

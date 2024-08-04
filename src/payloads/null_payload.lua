@@ -10,27 +10,27 @@ NullPayload.__index = NullPayload
 
 -- Use __call here to get a nicer constructor NullPayload() instead of NullPayload.new()
 setmetatable(NullPayload, {
-  __index = Payload,
-  __call = function(cls, ...)
-    return cls.new(...)
-  end,
+	__index = Payload,
+	__call = function(cls, ...)
+		return cls.new(...)
+	end,
 })
 
 function NullPayload.new()
-  local self = setmetatable({}, NullPayload)
+	local self = setmetatable({}, NullPayload)
 
-  return self
+	return self
 end
 
 function NullPayload:get_type()
-  return "custom"
+	return "custom"
 end
 
 function NullPayload:get_content()
-  return {
-    content = nil,
-    label = "Null",
-  }
+	return {
+		content = nil,
+		label = "Null",
+	}
 end
 
 return NullPayload
