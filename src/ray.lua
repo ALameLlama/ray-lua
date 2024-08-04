@@ -8,12 +8,15 @@ local SettingsFactory = require("ray.settings.settings_factory")
 ---@type Client
 local Client = require("ray.client")
 
+---@type SupportCounters
+local Counters = require("ray.support.counters")
+
 -- TODO: most of these don't exist yet, see if they can be implemented and see if the defaults are correct.
 
 ---@class Ray
 ---@field public settings Settings
 ---@field protected client Client
----@field public counters Counters
+---@field public counters SupportCounters
 ---@field public limiters Limiters
 ---@field public fake_uuid string
 ---@field public limit_origin Origin?
@@ -34,24 +37,24 @@ Ray.enabled = nil
 Ray.project_name = ""
 
 function Ray.create(client, uuid)
-  ---@type Settings
-  local settings = SettingsFactory.create_from_config_file()
+	---@type Settings
+	local settings = SettingsFactory.create_from_config_file()
 
-  return Ray.new(settings, client, uuid)
+	return Ray.new(settings, client, uuid)
 end
 
 function Ray.new(settings, client, uuid)
-  local self = setmetatable({}, Ray)
+	local self = setmetatable({}, Ray)
 
-  self.settings = settings
-  self.client = client or Ray.client or Client.new(settings.port, settings.host)
-  -- Ray.counters = Ray.counters or Counters.new()
-  -- Ray.limiters = Ray.limiters or Limiters.new()
-  self.uuid = uuid or Ray.fake_uuid or Uuid()
-  -- Ray.enabled = Ray.enabled or obj.settings.enable or true
-  -- Ray.rate_limiter = Ray.rate_limiter or RateLimiter:disabled()
+	self.settings = settings
+	self.client = client or Ray.client or Client.new(settings.port, settings.host)
+	self.counters = Ray.counters or Counters
+	-- Ray.limiters = Ray.limiters or Limiters.new()
+	self.uuid = uuid or Ray.fake_uuid or Uuid()
+	-- Ray.enabled = Ray.enabled or obj.settings.enable or true
+	-- Ray.rate_limiter = Ray.rate_limiter or RateLimiter:disabled()
 
-  return self
+	return self
 end
 
 return Ray
