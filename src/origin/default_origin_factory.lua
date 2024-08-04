@@ -1,13 +1,13 @@
 -- https://github.com/spatie/ray/blob/main/src/Origin/DefaultOriginFactory.php
 
 -- We use this like an interface in PHP
----@class OriginFactory
+---@type OriginFactory
 local OriginFactory = require("ray.origin.origin_factory")
 
----@class Origin
+---@type Origin
 local Origin = require("ray.origin")
 
----@class OriginHostname
+---@type OriginHostname
 local Hostname = require("ray.origin.hostname")
 
 ---@class OriginDefaultOriginFactory
