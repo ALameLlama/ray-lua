@@ -16,11 +16,11 @@ function Counters:increment(key)
 	end
 
 	local ray, times = unpack(self.counters[key])
-	local newTimes = times + 1
+	local new_times = times + 1
 
-	self.counters[key] = { ray, newTimes }
+	self.counters[key] = { ray, new_times }
 
-	return { ray, newTimes }
+	return { ray, new_times }
 end
 
 ---@param key string

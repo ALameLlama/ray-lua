@@ -46,6 +46,7 @@ build = {
 		["ray.settings"] = "src/settings/settings.lua",
 		["ray.settings.settings_factory"] = "src/settings/settings_factory.lua",
 		["ray.support.counters"] = "src/support/counters.lua",
+		["ray.support.limiters"] = "src/support/limiters.lua",
 	},
 	copy_directories = { "doc" },
 }
