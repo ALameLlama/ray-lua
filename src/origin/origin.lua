@@ -14,7 +14,7 @@ local Origin = {}
 Origin.__index = Origin
 
 ---@param file string?
----@param line_number string?
+---@param line_number integer?
 ---@param hostname string?
 function Origin.new(file, line_number, hostname)
 	local self = setmetatable({}, Origin)

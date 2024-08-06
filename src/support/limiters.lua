@@ -6,11 +6,20 @@ local Limiters = {}
 Limiters.__index = Limiters
 Limiters.limiters = {}
 
+---@return SupportLimiters
+function Limiters.new()
+	local self = setmetatable({}, Limiters)
+
+	self.limiters = {}
+
+	return self
+end
+
 ---@param origin Origin
 ---@param limit integer
 ---@return table
 function Limiters:initializer(origin, limit)
-	local name = origin.fingerprint
+	local name = origin:fingerprint()
 
 	if self.limiters[name] == nil then
 		self.limiters[name] = { 0, limit }
@@ -22,7 +31,7 @@ end
 ---@param origin Origin
 ---@return [integer, integer]
 function Limiters:increment(origin)
-	local name = origin.fingerprint
+	local name = origin:fingerprint()
 
 	if self.limiters[name] == nil then
 		return { false, false }
@@ -39,7 +48,7 @@ end
 ---@param origin Origin
 ---@return boolean
 function Limiters:can_send_payload(origin)
-	local name = origin.fingerprint
+	local name = origin:fingerprint()
 
 	if self.limiters[name] == nil then
 		return true
