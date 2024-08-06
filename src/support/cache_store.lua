@@ -10,11 +10,12 @@ local CacheStore = {}
 CacheStore.__index = CacheStore
 CacheStore.store = {}
 
+---@overload fun(): SupportCacheStore
 ---@return SupportCacheStore
-function CacheStore.new()
+function CacheStore.new(clock)
 	local self = setmetatable({}, CacheStore)
 
-	self.clock = Clock
+	self.clock = clock or Clock
 
 	return self
 end
@@ -62,3 +63,5 @@ end
 function CacheStore:is_between(timestamp, start, finish)
 	return timestamp >= start and timestamp <= finish
 end
+
+return CacheStore

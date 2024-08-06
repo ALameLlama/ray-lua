@@ -49,3 +49,5 @@ function Limiters:can_send_payload(origin)
 
 	return times < limit or limit <= 0
 end
+
+return Limiters
