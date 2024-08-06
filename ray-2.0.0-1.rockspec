@@ -55,6 +55,6 @@ build = {
 }
 test = {
 	type = "command",
-	script = "src/tests/ray.lua",
+	script = "tests/tests.lua",
 }
 test_dependencies = { "luaunit >= 3.4" }
