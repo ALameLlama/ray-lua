@@ -47,6 +47,9 @@ build = {
 		["ray.settings.settings_factory"] = "src/settings/settings_factory.lua",
 		["ray.support.counters"] = "src/support/counters.lua",
 		["ray.support.limiters"] = "src/support/limiters.lua",
+		["ray.support.rate_limiter"] = "src/support/rate_limiter.lua",
+		["ray.support.cache_store"] = "src/support/cache_store.lua",
+		["ray.support.clock"] = "src/support/clock.lua",
 	},
 	copy_directories = { "doc" },
 }

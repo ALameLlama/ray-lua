@@ -14,13 +14,16 @@ local Counters = require("ray.support.counters")
 ---@type SupportLimiters
 local Limiters = require("ray.support.limiters")
 
+---@type SupportRateLimiter
+local RateLimiter = require("ray.support.rate_limiter")
+
 -- TODO: most of these don't exist yet, see if they can be implemented and see if the defaults are correct.
 
 ---@class Ray
 ---@field public settings Settings
 ---@field protected client Client
 ---@field public counters SupportCounters
----@field public limiters SypportLimiters
+---@field public limiters SupportLimiters
 ---@field public fake_uuid string
 ---@field public limit_origin Origin?
 ---@field public uuid string
@@ -28,7 +31,7 @@ local Limiters = require("ray.support.limiters")
 ---@field public caught_exception table
 ---@field public stop_watches table
 ---@field public enabled boolean?
----@field public rate_limiter RateLimiter
+---@field public rate_limiter SupportRateLimiter
 ---@field public project_name string
 ---@field public before_send_request function?
 local Ray = {}
@@ -54,7 +57,7 @@ function Ray.new(settings, client, uuid)
 	self.counters = Ray.counters or Counters
 	self.limiters = Ray.limiters or Limiters
 	self.uuid = uuid or Ray.fake_uuid or Uuid()
-	-- Ray.rate_limiter = Ray.rate_limiter or RateLimiter:disabled()
+	Ray.rate_limiter = Ray.rate_limiter or RateLimiter:disabled()
 	Ray.enabled = Ray.enabled or self.settings.enable or true
 
 	return self
