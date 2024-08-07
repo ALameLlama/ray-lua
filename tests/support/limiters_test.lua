@@ -1,3 +1,5 @@
+-- https://github.com/spatie/ray/blob/main/tests/Support/LimitersTest.php
+
 local lu = require("luaunit")
 
 ---@type SupportLimiters
@@ -25,16 +27,33 @@ end
 function TestLimiters:testIncrementsALimiterCounterForAnOrigin()
   local origin = self:create_origin("test.lua", 123)
 
-  local init_results = {
-    self.limiters:increment(origin),
-    self.limiters:increment(origin),
-  }
+  self.limiters:increment(origin)
+  self.limiters:increment(origin)
 
-  local counter, limit = self.limiters:increment(origin)
+  local counter, _ = unpack(self.limiters:increment(origin))
 
   lu.assertEquals(counter, 3)
 end
 
+function TestLimiters:testDoesNotIncrementALimiterCounterForAnUninitializedOrigin()
+  local origin = Origin.new("test.lua", 456)
+
+  local increment_result = self.limiters:increment(origin)
+
+  lu.assertEquals(increment_result, { false, false })
+end
+
+function TestLimiters:testDeterminesIfAPayloadCanBeSentForAGivenOrigin()
+  local origin = self:create_origin("test.lua", 123, true, 2)
+
+  self.limiters:increment(origin)
+  lu.assertEquals(self.limiters:can_send_payload(origin), true)
+
+  self.limiters:increment(origin)
+  lu.assertEquals(self.limiters:can_send_payload(origin), false)
+end
+
+---@private
 ---@overload fun(file: string, line_number: integer): Origin
 ---@overload fun(file: string, line_number: integer, initialize: boolean): Origin
 ---@overload fun(file: string, line_number: integer, initialize: boolean, limit: integer): Origin
