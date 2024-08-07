@@ -1,5 +1,8 @@
 -- https://github.com/spatie/ray/blob/main/src/Support/RateLimiter.php
 
+---@type SupportCacheStore
+local CacheStore = require("ray.support.cache_store")
+
 ---@class SupportRateLimiter
 ---@field protected max_calls integer?
 ---@field protected max_calls_per_second integer?
@@ -19,14 +22,14 @@ function RateLimiter.new(max_calls, max_calls_per_second)
 
 	self.max_calls = max_calls
 	self.max_calls_per_second = max_calls_per_second
-	self.cache_store = {}
+	self.cache_store = CacheStore.new()
 
 	return self
 end
 
 ---@return SupportRateLimiter
-function RateLimiter:disabled()
-	return RateLimiter.new()
+function RateLimiter.disabled()
+	return RateLimiter.new(nil, nil)
 end
 
 ---@return SupportRateLimiter
