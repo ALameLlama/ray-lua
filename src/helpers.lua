@@ -1,8 +1,11 @@
 -- https://github.com/spatie/ray/blob/main/src/helpers.php
 ---@diagnostic disable: lowercase-global
 
-local SettingsFactory = require("ray.settings.settings_factory")
-local Ray = require("ray.ray")
+---@type SettingsFactory
+local SettingsFactory = require("src.settings.settings_factory")
+
+---@type Ray
+local Ray = require("src.ray")
 
 function ray(...)
 	local settings = SettingsFactory.create_from_config_file()

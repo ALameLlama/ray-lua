@@ -3,19 +3,19 @@
 local Uuid = require("uuid")
 
 ---@type SettingsFactory
-local SettingsFactory = require("ray.settings.settings_factory")
+local SettingsFactory = require("src.settings.settings_factory")
 
 ---@type Client
-local Client = require("ray.client")
+local Client = require("src.client")
 
 ---@type SupportCounters
-local Counters = require("ray.support.counters")
+local Counters = require("src.support.counters")
 
 ---@type SupportLimiters
-local Limiters = require("ray.support.limiters")
+local Limiters = require("src.support.limiters")
 
 ---@type SupportRateLimiter
-local RateLimiter = require("ray.support.rate_limiter")
+local RateLimiter = require("src.support.rate_limiter")
 
 ---@class Ray
 ---@field public settings Settings
@@ -98,6 +98,11 @@ end
 ---@return boolean
 function Ray.disabled()
 	return Ray._enabled == false
+end
+
+---@param client Client
+function Ray.use_client(client)
+	Ray.client = client
 end
 
 return Ray

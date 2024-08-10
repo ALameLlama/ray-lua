@@ -1,7 +1,7 @@
 -- https://github.com/spatie/ray/blob/main/src/Support/CacheStore.php
 
 ---@type SupportClock
-local Clock = require("ray.support.clock")
+local Clock = require("src.support.clock")
 
 ---@class SupportCacheStore
 ---@field protected store table<integer>

@@ -5,7 +5,7 @@ local lu = require("luaunit")
 local FakeClock = require("tests.helpers.fake_clock")
 
 ---@type SupportCacheStore
-local CacheStore = require("ray.support.cache_store")
+local CacheStore = require("src.support.cache_store")
 
 TestCacheStore = {}
 

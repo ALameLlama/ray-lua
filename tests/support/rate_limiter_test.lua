@@ -3,7 +3,7 @@
 local lu = require("luaunit")
 
 ---@type SupportRateLimiter
-local RateLimiter = require("ray.support.rate_limiter")
+local RateLimiter = require("src.support.rate_limiter")
 
 TestRateLimiter = {}
 

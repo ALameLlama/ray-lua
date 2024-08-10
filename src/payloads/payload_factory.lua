@@ -1,13 +1,13 @@
 -- https://github.com/spatie/ray/blob/main/src/PayloadFactory.php
 
 ---@type BoolPayload
-local BoolPayload = require("ray.payload.bool_payload")
+local BoolPayload = require("src.payloads.bool_payload")
 
 ---@type NullPayload
-local NullPayload = require("ray.payload.null_payload")
+local NullPayload = require("src.payloads.null_payload")
 
 ---@type LogPayload
-local LogPayload = require("ray.payload.log_payload")
+local LogPayload = require("src.payloads.log_payload")
 
 ---@class PayloadFactory
 ---@field protected values table

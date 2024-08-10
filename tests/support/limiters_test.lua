@@ -3,10 +3,10 @@
 local lu = require("luaunit")
 
 ---@type SupportLimiters
-local Limiters = require("ray.support.limiters")
+local Limiters = require("src.support.limiters")
 
 ---@type Origin
-local Origin = require("ray.origin")
+local Origin = require("src.origin.origin")
 
 TestLimiters = {}
 

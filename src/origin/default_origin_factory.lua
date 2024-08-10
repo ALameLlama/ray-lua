@@ -2,13 +2,13 @@
 
 -- We use this like an interface in PHP
 ---@type OriginFactory
-local OriginFactory = require("ray.origin.origin_factory")
+local OriginFactory = require("src.origin.origin_factory")
 
 ---@type Origin
-local Origin = require("ray.origin")
+local Origin = require("src.origin.origin")
 
 ---@type OriginHostname
-local Hostname = require("ray.origin.hostname")
+local Hostname = require("src.origin.hostname")
 
 ---@class OriginDefaultOriginFactory
 local DefaultOriginFactory = {}

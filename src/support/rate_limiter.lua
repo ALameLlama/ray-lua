@@ -1,7 +1,7 @@
 -- https://github.com/spatie/ray/blob/main/src/Support/RateLimiter.php
 
 ---@type SupportCacheStore
-local CacheStore = require("ray.support.cache_store")
+local CacheStore = require("src.support.cache_store")
 
 ---@class SupportRateLimiter
 ---@field protected max_calls integer?

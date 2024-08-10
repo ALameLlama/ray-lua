@@ -4,7 +4,7 @@ local json = require("cjson")
 local md5 = require("md5")
 
 ---@type OriginHostname
-local Hostname = require("ray.origin.hostname")
+local Hostname = require("src.origin.hostname")
 
 ---@class Origin
 ---@field public file string?
