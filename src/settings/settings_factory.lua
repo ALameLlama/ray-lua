@@ -70,6 +70,8 @@ function SettingsFactory:search_config_files_on_disk(config_directory)
 		"ray.lua",
 	}
 
+	local config_directory = config_directory or lfs.currentdir()
+
 	while lfs.attributes(config_directory, "mode") == "directory" do
 		for _, config_name in ipairs(config_names) do
 			local config_full_path = config_directory .. "/" .. config_name
@@ -81,7 +83,6 @@ function SettingsFactory:search_config_files_on_disk(config_directory)
 			end
 		end
 
-		--TODO: handle nil
 		local parent_directory = config_directory:match("(.*[/\\])")
 
 		if parent_directory == config_directory then

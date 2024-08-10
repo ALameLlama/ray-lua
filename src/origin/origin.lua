@@ -8,7 +8,7 @@ local Hostname = require("src.origin.hostname")
 
 ---@class Origin
 ---@field public file string?
----@field public line_number string?
+---@field public line_number integer?
 ---@field public hostname string?
 local Origin = {}
 Origin.__index = Origin

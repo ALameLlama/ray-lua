@@ -99,6 +99,7 @@ function RateLimiter:clear()
 	return self
 end
 
+---@return boolean
 function RateLimiter:is_notified()
 	return self.notified
 end
@@ -107,6 +108,7 @@ function RateLimiter:notify()
 	self.notified = true
 end
 
+---@return table<string, integer>
 function RateLimiter:cache()
 	return self.cache_store
 end

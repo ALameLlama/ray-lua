@@ -44,3 +44,5 @@ function LogPayload:get_content()
 		meta = self.meta,
 	}
 end
+
+return LogPayload

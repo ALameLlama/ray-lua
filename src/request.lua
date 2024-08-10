@@ -11,6 +11,11 @@ local json = require("cjson")
 local Request = {}
 Request.__index = Request
 
+-- Use __call here to get a nicer constructor Request() instead of Request.new()
+Request.__call = function(cls, ...)
+	return cls.new(...)
+end
+
 ---@param uuid string
 ---@param payloads table
 ---@param meta table
