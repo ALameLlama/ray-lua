@@ -2,6 +2,7 @@
 
 local http = require("http.request")
 local json = require("cjson")
+local Utils = require("src.utils")
 
 ---@class Client
 ---@field protected port_number integer
@@ -28,11 +29,9 @@ end
 ---@return boolean
 function Client:server_is_available()
 	-- purge expired entries from the cache
-	for k, v in pairs(self.cache) do
-		if os.time() > v[2] then
-			self.cache[k] = nil
-		end
-	end
+	self.cache = Utils.array_filter(function(_, v)
+		return os.time() < v[2]
+	end, self.cache)
 
 	if not self.cache[self.fingerprint] then
 		self:perform_availability_check()

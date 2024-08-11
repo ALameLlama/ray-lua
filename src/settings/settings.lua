@@ -1,5 +1,7 @@
 -- https://github.com/spatie/ray/blob/main/src/Settings/Settings.php
 
+local Utils = require("src.utils")
+
 ---@class SettingsOptions
 ---@field protected enable boolean
 ---@field protected host string
@@ -71,7 +73,7 @@ end
 ---@param name string
 ---@return boolean
 function Settings:was_loaded_using_config_file(name)
-	if self.settings[name] == nil then
+	if not Utils.array_key_exists(name, self.settings) then
 		return true
 	end
 

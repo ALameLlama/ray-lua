@@ -1,5 +1,7 @@
 -- https://github.com/spatie/ray/blob/main/src/PayloadFactory.php
 
+local Utils = require("src.utils")
+
 ---@type BoolPayload
 local BoolPayload = require("src.payloads.bool_payload")
 
@@ -38,13 +40,9 @@ end
 
 ---@return table
 function PayloadFactory:get_payloads()
-	local payloads = {}
-
-	for _, value in ipairs(self.values) do
-		table.insert(payloads, self:get_payload(value))
-	end
-
-	return payloads
+	return Utils.array_map(function(value)
+		return self:get_payload(value)
+	end, self.values)
 end
 
 ---@protected

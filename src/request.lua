@@ -1,12 +1,11 @@
 -- https://github.com/spatie/ray/blob/main/src/Request.php
 
 local json = require("cjson")
-
---TODO: Implement payload class
+local Utils = require("src.utils")
 
 ---@class Request
 ---@field protected uuid string
----@field protected payloads table
+---@field protected payloads Payload[]
 ---@field protected meta table
 local Request = {}
 Request.__index = Request
@@ -31,11 +30,9 @@ end
 
 ---@return table
 function Request:to_array()
-	local payloads = {}
-
-	for _, payload in ipairs(self.payloads) do
-		table.insert(payloads, payload:to_array())
-	end
+	local payloads = Utils.array_map(function(payload)
+		return payload:to_array()
+	end, self.payloads)
 
 	return {
 		uuid = self.uuid,
