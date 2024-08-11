@@ -1,6 +1,7 @@
 -- https://github.com/spatie/ray/blob/main/src/Ray.php
 
 local Uuid = require("uuid")
+local Utils = require("src.utils")
 
 ---@type SettingsFactory
 local SettingsFactory = require("src.settings.settings_factory")
@@ -17,11 +18,20 @@ local Counters = require("src.support.counters")
 ---@type SupportLimiters
 local Limiters = require("src.support.limiters")
 
+---@type SupportIgnoredValue
+local IgnoredValue = require("src.support.ignored_value")
+
 ---@type SupportRateLimiter
 local RateLimiter = require("src.support.rate_limiter")
 
+---@type PayloadFactory
+local PayloadFactory = require("src.payloads.payload_factory")
+
 ---@type CustomPayload
-local CustomPayload = require("src.payload.custom_payload")
+local CustomPayload = require("src.payloads.custom_payload")
+
+---@type LogPayload
+local LogPayload = require("src.payloads.log_payload")
 
 ---@class Ray
 ---@field public settings Settings
@@ -127,6 +137,7 @@ function Ray:notify_when_rate_limit_reached()
 	self.rate_limiter:notify()
 end
 
+---@overload fun(payload: Payload): Ray
 ---@param payloads Payload|Payload[]
 ---@param meta table
 ---@return Ray
@@ -187,6 +198,66 @@ function Ray:send_request(payloads, meta)
 	self.rate_limiter:hit()
 
 	return self
+end
+
+function Ray:send(...)
+	local arguments = { ... }
+
+	if #arguments == 0 then
+		return self
+	end
+
+	if self.settings.always_send_raw_values then
+		return self:raw(table.unpack(arguments))
+	end
+
+	arguments = Utils.array_map(function(argument)
+		if type(argument) == "table" then
+			return argument
+		end
+
+		if type(argument) == "function" then
+			return argument
+		end
+
+		local status, result = pcall(argument, self)
+
+		if not status then
+			table.insert(self.caught_exception, result)
+
+			return IgnoredValue.make()
+		end
+
+		return result
+	end, arguments)
+
+	--TODO: check if this is correct and filters out IgnoredValue
+	arguments = Utils.array_filter(function(argument)
+		return getmetatable(argument) ~= IgnoredValue
+	end, arguments)
+
+	if #arguments == 0 then
+		return self
+	end
+
+	local payloads = PayloadFactory.create_for_values(arguments)
+
+	return self:send_request(payloads)
+end
+
+function Ray:raw(...)
+	local arguments = { ... }
+
+	if #arguments == 0 then
+		return self
+	end
+
+	local payloads = Utils.array_map(function(argument)
+		-- In PHP this is LogPayload::createForArguments() but we don't have the convert stuff
+		return LogPayload({ argument })
+	end, arguments)
+
+	return self:send_request(payloads)
 end
 
 return Ray
