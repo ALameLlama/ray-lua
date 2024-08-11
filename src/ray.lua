@@ -260,4 +260,10 @@ function Ray:raw(...)
 	return self:send_request(payloads)
 end
 
+---@overload fun()
+---@param status boolean|integer
+function Ray:die(status)
+	os.exit(status or 1)
+end
+
 return Ray
