@@ -12,6 +12,7 @@ local Client = require("src.client")
 ---@type Request
 local Request = require("src.request")
 
+-- Support
 ---@type SupportCounters
 local Counters = require("src.support.counters")
 
@@ -24,6 +25,7 @@ local IgnoredValue = require("src.support.ignored_value")
 ---@type SupportRateLimiter
 local RateLimiter = require("src.support.rate_limiter")
 
+-- Payloads
 ---@type PayloadFactory
 local PayloadFactory = require("src.payloads.payload_factory")
 
@@ -32,6 +34,15 @@ local CustomPayload = require("src.payloads.custom_payload")
 
 ---@type LogPayload
 local LogPayload = require("src.payloads.log_payload")
+
+---@type NewScreenPayload
+local NewScreenPayload = require("src.payloads.new_screen_payload")
+
+---@type ClearAllPayload
+local ClearAllPayload = require("src.payloads.clear_all_payload")
+
+---@type ColorPayload
+local ColorPayload = require("src.payloads.color_payload")
 
 ---@class Ray
 ---@field public settings Settings
@@ -122,6 +133,43 @@ end
 ---@param client Client
 function Ray.use_client(client)
 	Ray.client = client
+end
+
+---@overload fun(): Ray
+---@param name string
+---@return Ray
+function Ray.new_screen(name)
+	-- TODO: sanitize name
+	name = name or ""
+
+	local payload = NewScreenPayload(name)
+
+	return Ray:send_request(payload)
+end
+
+---@return Ray
+function Ray.clear_all()
+	local payload = ClearAllPayload()
+
+	return Ray:send_request(payload)
+end
+
+---@return Ray
+function Ray.clear_screen()
+	return Ray.new_screen()
+end
+
+--TODO: add support for grey
+---@param color string  Supported colors are: green, orange, red, purple, blue, gray
+function Ray.color(color)
+	local payload = ColorPayload(color)
+
+	return Ray:send_request(payload)
+end
+
+---@param color string  Supported colors are: green, orange, red, purple, blue, gray
+function Ray.colour(color)
+	return Ray.color(color)
 end
 
 ---@protected
