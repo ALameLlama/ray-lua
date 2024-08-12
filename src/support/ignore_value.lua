@@ -5,7 +5,7 @@ IgnoredValue = {}
 IgnoredValue.__index = IgnoredValue
 
 function IgnoredValue.make()
-  return setmetatable({}, IgnoredValue)
+	return setmetatable({}, IgnoredValue)
 end
 
 return IgnoredValue

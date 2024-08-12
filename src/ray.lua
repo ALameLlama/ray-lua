@@ -44,6 +44,21 @@ local ClearAllPayload = require("src.payloads.clear_all_payload")
 ---@type ColorPayload
 local ColorPayload = require("src.payloads.color_payload")
 
+---@type ScreenColorPayload
+local ScreenColorPayload = require("src.payloads.screen_color_payload")
+
+---@type LabelPayload
+local LabelPayload = require("src.payloads.label_payload")
+
+---@type SizePayload
+local SizePayload = require("src.payloads.size_payload")
+
+---@type RemovePayload
+local RemovePayload = require("src.payloads.remove_payload")
+
+---@type HidePayload
+local HidePayload = require("src.payloads.hide_payload")
+
 ---@class Ray
 ---@field public settings Settings
 ---@field protected client Client
@@ -161,6 +176,7 @@ end
 
 --TODO: add support for grey
 ---@param color string  Supported colors are: green, orange, red, purple, blue, gray
+---@return Ray
 function Ray.color(color)
 	local payload = ColorPayload(color)
 
@@ -168,8 +184,53 @@ function Ray.color(color)
 end
 
 ---@param color string  Supported colors are: green, orange, red, purple, blue, gray
+---@return Ray
 function Ray.colour(color)
 	return Ray.color(color)
+end
+
+---@param color string
+---@return Ray
+function Ray.screen_color(color)
+	local payload = ScreenColorPayload(color)
+
+	return Ray:send_request(payload)
+end
+
+---@param color string
+---@return Ray
+function Ray.screen_colour(color)
+	return Ray.screen_color(color)
+end
+
+---@param label string
+---@return Ray
+function Ray.label(label)
+	local payload = LabelPayload(label)
+
+	return Ray:send_request(payload)
+end
+
+---@param size string
+---@return Ray
+function Ray.size(size)
+	local payload = SizePayload(size)
+
+	return Ray:send_request(payload)
+end
+
+---@return Ray
+function Ray.remove()
+	local payload = RemovePayload()
+
+	return Ray:send_request(payload)
+end
+
+---@return Ray
+function Ray.hide()
+	local payload = HidePayload()
+
+	return Ray:send_request(payload)
 end
 
 ---@protected
@@ -178,7 +239,7 @@ function Ray:notify_when_rate_limit_reached()
 		return
 	end
 
-	local custom_payload = CustomPayload("Rate limit has been reached...", "Rate limit")
+	local custom_payload = CustomPayload("Rate limit has bee  reached...", "Rate limit")
 
 	self.client:send(Request(self.uuid, custom_payload, {}))
 
