@@ -29,35 +29,18 @@ local RateLimiter = require("src.support.rate_limiter")
 ---@type PayloadFactory
 local PayloadFactory = require("src.payloads.payload_factory")
 
----@type CustomPayload
 local CustomPayload = require("src.payloads.custom_payload")
-
----@type LogPayload
 local LogPayload = require("src.payloads.log_payload")
-
----@type NewScreenPayload
 local NewScreenPayload = require("src.payloads.new_screen_payload")
-
----@type ClearAllPayload
 local ClearAllPayload = require("src.payloads.clear_all_payload")
-
----@type ColorPayload
 local ColorPayload = require("src.payloads.color_payload")
-
----@type ScreenColorPayload
 local ScreenColorPayload = require("src.payloads.screen_color_payload")
-
----@type LabelPayload
 local LabelPayload = require("src.payloads.label_payload")
-
----@type SizePayload
 local SizePayload = require("src.payloads.size_payload")
-
----@type RemovePayload
 local RemovePayload = require("src.payloads.remove_payload")
-
----@type HidePayload
 local HidePayload = require("src.payloads.hide_payload")
+local NotifyPayload = require("src.payloads.notify_payload")
+local JsonStringPayload = require("src.payloads.json_string_payload")
 
 ---@class Ray
 ---@field public settings Settings
@@ -233,6 +216,59 @@ function Ray.hide()
 	return Ray:send_request(payload)
 end
 
+---@param stopwatch_name string|function
+function Ray.measure(stopwatch_name)
+	error("Not implemented")
+end
+
+---@param starting_from_frame function?
+function Ray.trace(starting_from_frame)
+	error("Not implemented")
+end
+
+---@param starting_from_frame function?
+function Ray.backtrace(starting_from_frame)
+	return Ray.trace(starting_from_frame)
+end
+
+function Ray.caller()
+	error("Not implemented")
+end
+
+function Ray.expand(...)
+	error("Not implemented")
+end
+
+function Ray.expand_all()
+	return Ray.expand(999)
+end
+
+function Ray.stop_time(stopwatch_name)
+	error("Not implemented")
+end
+
+---@param text string
+---@return Ray
+function Ray.notify(text)
+	local payload = NotifyPayload(text)
+
+	return Ray:send_request(payload)
+end
+
+function Ray.to_json(...)
+	local arguments = { ... }
+
+	if #arguments == 0 then
+		return Ray
+	end
+
+	local payloads = Utils.array_map(function(argument)
+		return JsonStringPayload(argument)
+	end, arguments)
+
+	return Ray:send_request(payloads)
+end
+
 ---@protected
 function Ray:notify_when_rate_limit_reached()
 	if self.rate_limiter:is_notified() then
@@ -282,14 +318,10 @@ function Ray:send_request(payloads, meta)
 		return self
 	end
 
-	local all_meta = {
+	local all_meta = Utils.array_merge({
 		lua_version = _VERSION,
 		project_name = self.project_name,
-	}
-
-	for k, v in pairs(meta) do
-		all_meta[k] = v
-	end
+	}, meta)
 
 	if self.before_send_request then
 		self.before_send_request(payloads, all_meta)
