@@ -11,9 +11,12 @@ local Request = {}
 Request.__index = Request
 
 -- Use __call here to get a nicer constructor Request() instead of Request.new()
-Request.__call = function(cls, ...)
-	return cls.new(...)
-end
+setmetatable(Request, {
+	__index = Request,
+	__call = function(cls, ...)
+		return cls.new(...)
+	end,
+})
 
 ---@param uuid string
 ---@param payloads table
@@ -45,3 +48,5 @@ end
 function Request:to_json()
 	return json.encode(self:to_array())
 end
+
+return Request

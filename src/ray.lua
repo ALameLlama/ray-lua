@@ -59,11 +59,13 @@ local JsonStringPayload = require("ray.payload.json_string_payload")
 ---@field public before_send_request function?
 local Ray = {}
 Ray.__index = Ray
-Ray.client = nil
+Ray.uuid = ""
+Ray.can_send_payload = true
 Ray.caught_exception = {}
 Ray.stop_watches = {}
 Ray.enabled = nil
 Ray.project_name = ""
+Ray.before_send_request = nil
 
 ---@param client Client
 ---@param uuid string
@@ -353,11 +355,7 @@ function Ray:send(...)
 	end
 
 	arguments = Utils.array_map(function(argument)
-		if type(argument) == "table" then
-			return argument
-		end
-
-		if type(argument) == "function" then
+		if type(argument) ~= "function" then
 			return argument
 		end
 

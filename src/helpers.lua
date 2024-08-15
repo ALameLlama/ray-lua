@@ -9,7 +9,7 @@ local Ray = require("ray.ray")
 
 function ray(...)
 	local settings = SettingsFactory.create_from_config_file()
-	local ray_instance = Ray:new(settings)
+	local ray_instance = Ray.new(settings)
 
 	return ray_instance:send(...)
 end
