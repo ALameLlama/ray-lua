@@ -1,7 +1,7 @@
 -- https://github.com/spatie/ray/blob/main/src/Request.php
 
 local json = require("cjson")
-local Utils = require("src.utils")
+local Utils = require("ray.utils")
 
 ---@class Request
 ---@field protected uuid string

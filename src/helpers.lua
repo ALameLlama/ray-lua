@@ -2,10 +2,10 @@
 ---@diagnostic disable: lowercase-global
 
 ---@type SettingsFactory
-local SettingsFactory = require("src.settings.settings_factory")
+local SettingsFactory = require("ray.settings.settings_factory")
 
 ---@type Ray
-local Ray = require("src.ray")
+local Ray = require("ray.ray")
 
 function ray(...)
 	local settings = SettingsFactory.create_from_config_file()

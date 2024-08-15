@@ -1,7 +1,7 @@
 -- https://github.com/spatie/ray/blob/main/src/Payloads/NullPayload.php
 
 ---@type Payload
-local Payload = require("src.payloads.payload")
+local Payload = require("ray.payload")
 
 ---@class NullPayload : Payload
 ---@field protected value boolean

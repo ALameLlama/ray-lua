@@ -1,46 +1,46 @@
 -- https://github.com/spatie/ray/blob/main/src/Ray.php
 
 local Uuid = require("uuid")
-local Utils = require("src.utils")
+local Utils = require("ray.utils")
 
 ---@type SettingsFactory
-local SettingsFactory = require("src.settings.settings_factory")
+local SettingsFactory = require("ray.settings.settings_factory")
 
 ---@type Client
-local Client = require("src.client")
+local Client = require("ray.client")
 
 ---@type Request
-local Request = require("src.request")
+local Request = require("ray.request")
 
 -- Support
 ---@type SupportCounters
-local Counters = require("src.support.counters")
+local Counters = require("ray.support.counters")
 
 ---@type SupportLimiters
-local Limiters = require("src.support.limiters")
+local Limiters = require("ray.support.limiters")
 
 ---@type SupportIgnoredValue
-local IgnoredValue = require("src.support.ignored_value")
+local IgnoredValue = require("ray.support.ignored_value")
 
 ---@type SupportRateLimiter
-local RateLimiter = require("src.support.rate_limiter")
+local RateLimiter = require("ray.support.rate_limiter")
 
 -- Payloads
 ---@type PayloadFactory
-local PayloadFactory = require("src.payloads.payload_factory")
+local PayloadFactory = require("ray.payload.payload_factory")
 
-local CustomPayload = require("src.payloads.custom_payload")
-local LogPayload = require("src.payloads.log_payload")
-local NewScreenPayload = require("src.payloads.new_screen_payload")
-local ClearAllPayload = require("src.payloads.clear_all_payload")
-local ColorPayload = require("src.payloads.color_payload")
-local ScreenColorPayload = require("src.payloads.screen_color_payload")
-local LabelPayload = require("src.payloads.label_payload")
-local SizePayload = require("src.payloads.size_payload")
-local RemovePayload = require("src.payloads.remove_payload")
-local HidePayload = require("src.payloads.hide_payload")
-local NotifyPayload = require("src.payloads.notify_payload")
-local JsonStringPayload = require("src.payloads.json_string_payload")
+local CustomPayload = require("ray.payload.custom_payload")
+local LogPayload = require("ray.payload.log_payload")
+local NewScreenPayload = require("ray.payload.new_screen_payload")
+local ClearAllPayload = require("ray.payload.clear_all_payload")
+local ColorPayload = require("ray.payload.color_payload")
+local ScreenColorPayload = require("ray.payload.screen_color_payload")
+local LabelPayload = require("ray.payload.label_payload")
+local SizePayload = require("ray.payload.size_payload")
+local RemovePayload = require("ray.payload.remove_payload")
+local HidePayload = require("ray.payload.hide_payload")
+local NotifyPayload = require("ray.payload.notify_payload")
+local JsonStringPayload = require("ray.payload.json_string_payload")
 
 ---@class Ray
 ---@field public settings Settings

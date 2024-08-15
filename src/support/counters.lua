@@ -1,7 +1,5 @@
 -- https://github.com/spatie/ray/blob/main/src/Support/Counters.php
 
-require("ray")
-
 ---@class SupportCounters
 ---@field protected counters table<string, [Ray, integer]>
 local Counters = {}

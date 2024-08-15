@@ -3,7 +3,7 @@
 local lfs = require("lfs")
 
 ---@type Settings
-local Settings = require("src.settings.settings")
+local Settings = require("ray.settings")
 
 ---@class SettingsFactory
 ---@field public cache table<string, string>

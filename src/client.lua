@@ -2,7 +2,7 @@
 
 local http = require("http.request")
 local json = require("cjson")
-local Utils = require("src.utils")
+local Utils = require("ray.utils")
 
 ---@class Client
 ---@field protected port_number integer

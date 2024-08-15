@@ -3,7 +3,7 @@
 local json = require("cjson")
 
 ---@type OriginDefaultOriginFactory
-local DefaultOriginFactory = require("src.origin.default_origin_factory")
+local DefaultOriginFactory = require("ray.origin.default_origin_factory")
 
 ---@class Payload
 ---@field public remote_path string?

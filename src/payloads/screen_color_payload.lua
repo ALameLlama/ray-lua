@@ -1,7 +1,7 @@
 -- https://github.com/spatie/ray/blob/main/src/Payloads/ScreenColorPayload.php
 
 ---@type Payload
-local Payload = require("src.payloads.payload")
+local Payload = require("ray.payload")
 
 ---@class ScreenColorPayload : Payload
 ---@field protected color string

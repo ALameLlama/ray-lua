@@ -3,7 +3,7 @@
 local json = require("cjson")
 
 ---@type Payload
-local Payload = require("src.payloads.payload")
+local Payload = require("ray.payload")
 
 ---@class JsonStringPayload : Payload
 ---@field protected value string

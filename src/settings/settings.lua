@@ -1,6 +1,6 @@
 -- https://github.com/spatie/ray/blob/main/src/Settings/Settings.php
 
-local Utils = require("src.utils")
+local Utils = require("ray.utils")
 
 ---@class SettingsOptions
 ---@field protected enable boolean

@@ -3,7 +3,7 @@
 -- TODO: look into if we really need it
 
 ---@type Payload
-local Payload = require("src.payloads.payload")
+local Payload = require("ray.payload")
 
 ---@class LogPayload : Payload
 ---@field protected values table
