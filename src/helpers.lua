@@ -1,4 +1,5 @@
--- https://github.com/spatie/ray/blob/main/src/helpers.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/helpers.php
+
 ---@diagnostic disable: lowercase-global
 
 ---@type SettingsFactory

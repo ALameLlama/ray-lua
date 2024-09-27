@@ -10,24 +10,24 @@ local CacheStore = require("src.support.cache_store")
 TestCacheStore = {}
 
 function TestCacheStore:setUp()
-  self.clock = FakeClock.new()
-  self.store = CacheStore.new(self.clock)
+	self.clock = FakeClock.new()
+	self.store = CacheStore.new(self.clock)
 end
 
 function TestCacheStore:testCountPerSeconds()
-  self.clock:freeze()
+	self.clock:freeze()
 
-  self.store:hit():hit():hit()
+	self.store:hit():hit():hit()
 
-  lu.assertEquals(self.store:count_last_second(), 3)
+	lu.assertEquals(self.store:count_last_second(), 3)
 
-  self.clock:move_forward(1)
+	self.clock:move_forward(1)
 
-  lu.assertEquals(self.store:count_last_second(), 3)
+	lu.assertEquals(self.store:count_last_second(), 3)
 
-  self.clock:move_forward(1)
+	self.clock:move_forward(1)
 
-  lu.assertEquals(self.store:count_last_second(), 0)
+	lu.assertEquals(self.store:count_last_second(), 0)
 end
 
 return TestCacheStore

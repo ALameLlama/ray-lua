@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Support/Counters.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Support/Counters.php
 
 ---@class SupportCounters
 ---@field protected counters table<string, [Ray, integer]>

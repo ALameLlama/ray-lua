@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Ray.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Ray.php
 
 local Uuid = require("uuid")
 local Utils = require("ray.utils")
@@ -63,7 +63,7 @@ Ray.uuid = ""
 Ray.can_send_payload = true
 Ray.caught_exception = {}
 Ray.stop_watches = {}
-Ray.enabled = nil
+Ray._enabled = nil
 Ray.project_name = ""
 Ray.before_send_request = nil
 

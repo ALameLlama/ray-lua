@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Origin/Hostname.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Origin/Hostname.php
 
 ---@class OriginHostname
 ---@field protected hostname string?

@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Settings/SettingsFactory.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Settings/SettingsFactory.php
 
 local lfs = require("lfs")
 

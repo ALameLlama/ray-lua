@@ -1,0 +1,5 @@
+.git/
+.github/
+.luarocks/
+doc/
+lua_modules/

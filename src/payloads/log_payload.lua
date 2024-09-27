@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Payloads/LogPayload.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Payloads/LogPayload.php
 -- In the PHP implementation, they have some more type conversion logic and clipboard logic
 -- TODO: look into if we really need it
 
@@ -26,7 +26,16 @@ setmetatable(LogPayload, {
 function LogPayload.new(values, meta)
 	local self = setmetatable({}, LogPayload)
 
+	if type(values) ~= "table" then
+		values = { values }
+	end
+
 	self.values = values
+
+	if meta and type(meta) ~= "table" then
+		meta = { meta }
+	end
+
 	self.meta = meta or {}
 
 	return self
@@ -40,7 +49,7 @@ end
 ---@return table
 function LogPayload:get_content()
 	return {
-		content = self.values,
+		values = self.values,
 		meta = self.meta,
 	}
 end

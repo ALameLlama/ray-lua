@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Origin/DefaultOriginFactory.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Origin/DefaultOriginFactory.php
 
 -- We use this like an interface in PHP
 ---@type OriginFactory
@@ -20,7 +20,7 @@ setmetatable(DefaultOriginFactory, OriginFactory)
 function DefaultOriginFactory:get_origin()
 	local frame = self:get_frame()
 
-	return Origin.new(frame and frame.file or nil, frame and frame.line or nil, Hostname:get())
+	return Origin.new(frame and frame.short_src or nil, frame and frame.currentline or nil, Hostname:get())
 end
 
 ---@protected
@@ -31,6 +31,15 @@ function DefaultOriginFactory:get_frame()
 
 	if not index_of_ray then
 		return nil
+	end
+
+	-- We've now found the ray frame, we need to find the first non ray frame and non system frame
+	while frames[index_of_ray + 1].currentline == -1 do
+		if not frames[index_of_ray + 1] then
+			return nil
+		end
+
+		index_of_ray = index_of_ray + 1
 	end
 
 	-- Return +1 so we can find the first line before the ray call
@@ -69,7 +78,7 @@ end
 function DefaultOriginFactory:get_index_of_ray_frame(frames)
 	for index, frame in ipairs(frames) do
 		-- This is the best way i can think of to check if the frame is the ray or rd function.
-		if frame.source:match("/ray.lua$") and frame.namewhat == "global" then
+		if frame.source:match("ray/ray.lua$") then
 			return index
 		end
 	end

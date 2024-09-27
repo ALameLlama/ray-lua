@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Support/IgnoredValue.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Support/IgnoredValue.php
 
 ---@class SupportIgnoredValue
 IgnoredValue = {}

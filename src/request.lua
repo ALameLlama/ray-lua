@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Request.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Request.php
 
 local json = require("cjson")
 local Utils = require("ray.utils")

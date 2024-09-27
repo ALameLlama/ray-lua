@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Support/Limiters.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Support/Limiters.php
 
 ---@class SupportLimiters
 ---@field protected limiters table<string, [integer, integer]>

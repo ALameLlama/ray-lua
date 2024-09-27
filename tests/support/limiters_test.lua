@@ -11,46 +11,46 @@ local Origin = require("src.origin.origin")
 TestLimiters = {}
 
 function TestLimiters:setUp()
-  self.limiters = Limiters.new()
+	self.limiters = Limiters.new()
 end
 
 function TestLimiters:testInitializesALimiterForAnOrigin()
-  local init_results = {
-    self.limiters:initializer(Origin.new("test.lua", 123), 5),
-    self.limiters:initializer(Origin.new("testa.lua", 124), 8),
-  }
+	local init_results = {
+		self.limiters:initializer(Origin.new("test.lua", 123), 5),
+		self.limiters:initializer(Origin.new("testa.lua", 124), 8),
+	}
 
-  lu.assertEquals(init_results[1], { 0, 5 })
-  lu.assertEquals(init_results[2], { 0, 8 })
+	lu.assertEquals(init_results[1], { 0, 5 })
+	lu.assertEquals(init_results[2], { 0, 8 })
 end
 
 function TestLimiters:testIncrementsALimiterCounterForAnOrigin()
-  local origin = self:create_origin("test.lua", 123)
+	local origin = self:create_origin("test.lua", 123)
 
-  self.limiters:increment(origin)
-  self.limiters:increment(origin)
+	self.limiters:increment(origin)
+	self.limiters:increment(origin)
 
-  local counter, _ = unpack(self.limiters:increment(origin))
+	local counter, _ = unpack(self.limiters:increment(origin))
 
-  lu.assertEquals(counter, 3)
+	lu.assertEquals(counter, 3)
 end
 
 function TestLimiters:testDoesNotIncrementALimiterCounterForAnUninitializedOrigin()
-  local origin = Origin.new("test.lua", 456)
+	local origin = Origin.new("test.lua", 456)
 
-  local increment_result = self.limiters:increment(origin)
+	local increment_result = self.limiters:increment(origin)
 
-  lu.assertEquals(increment_result, { false, false })
+	lu.assertEquals(increment_result, { false, false })
 end
 
 function TestLimiters:testDeterminesIfAPayloadCanBeSentForAGivenOrigin()
-  local origin = self:create_origin("test.lua", 123, true, 2)
+	local origin = self:create_origin("test.lua", 123, true, 2)
 
-  self.limiters:increment(origin)
-  lu.assertEquals(self.limiters:can_send_payload(origin), true)
+	self.limiters:increment(origin)
+	lu.assertEquals(self.limiters:can_send_payload(origin), true)
 
-  self.limiters:increment(origin)
-  lu.assertEquals(self.limiters:can_send_payload(origin), false)
+	self.limiters:increment(origin)
+	lu.assertEquals(self.limiters:can_send_payload(origin), false)
 end
 
 ---@private
@@ -62,23 +62,23 @@ end
 ---@param initialize boolean
 ---@param limit integer
 function TestLimiters:create_origin(file, line_number, initialize, limit)
-  local result = Origin.new(file, line_number)
+	local result = Origin.new(file, line_number)
 
-  -- Default value for initialize is true
-  if initialize == nil then
-    initialize = true
-  end
+	-- Default value for initialize is true
+	if initialize == nil then
+		initialize = true
+	end
 
-  -- Default value for limit is 5
-  if limit == nil then
-    limit = 5
-  end
+	-- Default value for limit is 5
+	if limit == nil then
+		limit = 5
+	end
 
-  if initialize then
-    self.limiters:initializer(result, limit)
-  end
+	if initialize then
+		self.limiters:initializer(result, limit)
+	end
 
-  return result
+	return result
 end
 
 return TestLimiters

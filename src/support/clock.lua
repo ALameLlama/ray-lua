@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Support/CacheStore.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Support/Clock.php
 
 ---@class SupportClock
 local Clock = {}

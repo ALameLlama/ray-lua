@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Origin/OriginFactory.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Origin/OriginFactory.php
 
 ---@class OriginFactory
 local OriginFactory = {}

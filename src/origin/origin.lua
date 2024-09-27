@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Origin/Origin.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Origin/Origin.php
 
 local json = require("cjson")
 local md5 = require("md5")
@@ -19,9 +19,9 @@ Origin.__index = Origin
 function Origin.new(file, line_number, hostname)
 	local self = setmetatable({}, Origin)
 
-	self.file = file
-	self.line_number = line_number
-	self.hostname = hostname or Hostname:get()
+	self.file = file or ""
+	self.line_number = line_number or 0
+	self.hostname = string.gsub(hostname or Hostname:get() or "", "%s+", "")
 
 	return self
 end

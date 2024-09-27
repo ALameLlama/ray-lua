@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Settings/Settings.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Settings/Settings.php
 
 local Utils = require("ray.utils")
 

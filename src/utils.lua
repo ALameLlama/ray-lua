@@ -63,12 +63,30 @@ end
 function M.array_merge(array1, array2)
 	local result = {}
 
+	if type(array1) ~= "table" or type(array2) ~= "table" then
+		return result
+	end
+
+	-- Handle array-like elements
 	for _, v in ipairs(array1) do
 		table.insert(result, v)
 	end
 
 	for _, v in ipairs(array2) do
 		table.insert(result, v)
+	end
+
+	-- Handle dictionary-like elements
+	for k, v in pairs(array1) do
+		if type(k) ~= "number" then
+			result[k] = v
+		end
+	end
+
+	for k, v in pairs(array2) do
+		if type(k) ~= "number" then
+			result[k] = v
+		end
 	end
 
 	return result

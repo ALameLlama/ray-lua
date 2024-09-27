@@ -64,7 +64,7 @@ function PayloadFactory:get_payload(value)
 		return NullPayload()
 	end
 
-	-- PHP uses Carbon a popular date-time library, idk if lua has something similar.
+	-- PHP uses Carbon, idk if lua has something similar.
 	--TODO: see if we want to add something like this in the future
 	-- if type(value) == "table" and value.is_carbon then
 	--   return CarbonPayload.new(value)

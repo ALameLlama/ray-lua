@@ -1,7 +1,6 @@
--- https://github.com/spatie/ray/blob/main/src/Client.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Client.php
 
 local http = require("http.request")
-local json = require("cjson")
 local Utils = require("ray.utils")
 
 ---@class Client
@@ -45,6 +44,7 @@ function Client:perform_availability_check()
 	local success = false
 	local url = "http://" .. self.host .. ":" .. self.port_number .. "/_availability_check"
 	local req = http.new_from_uri(url)
+
 	req.headers:upsert(":method", "GET")
 
 	local headers, _ = req:go()
@@ -67,11 +67,11 @@ function Client:send(request)
 
 	local url = "http://" .. self.host .. ":" .. self.port_number
 	local req = http.new_from_uri(url)
+
 	req.headers:upsert(":method", "POST")
 	req.headers:upsert("content-type", "application/json")
 
-	local request_payload = json.encode(request)
-	req:set_body(request_payload)
+	req:set_body(request:to_json())
 
 	local headers, _ = req:go()
 	if headers:get(":status") == "500" then

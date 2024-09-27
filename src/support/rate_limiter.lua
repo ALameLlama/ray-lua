@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Support/RateLimiter.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Support/RateLimiter.php
 
 ---@type SupportCacheStore
 local CacheStore = require("ray.support.cache_store")

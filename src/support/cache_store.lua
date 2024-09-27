@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Support/CacheStore.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Support/CacheStore.php
 
 ---@type SupportClock
 local Clock = require("ray.support.clock")
