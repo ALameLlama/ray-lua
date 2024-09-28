@@ -1,10 +1,10 @@
--- https://github.com/spatie/ray/blob/main/src/Payloads/BoolPayload.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Payloads/BoolPayload.php
 
 ---@type Payload
 local Payload = require("ray.payload")
 
 ---@class BoolPayload : Payload
----@field protected value boolean
+---@field protected bool boolean
 local BoolPayload = {}
 BoolPayload.__index = BoolPayload
 
@@ -21,7 +21,7 @@ setmetatable(BoolPayload, {
 function BoolPayload.new(value)
 	local self = setmetatable({}, BoolPayload)
 
-	self.value = value
+	self.bool = value
 
 	return self
 end
@@ -34,7 +34,7 @@ end
 ---@return table
 function BoolPayload:get_content()
 	return {
-		content = self.value,
+		content = self.bool,
 		label = "Boolean",
 	}
 end

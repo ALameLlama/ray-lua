@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Payloads/Payload.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Payloads/Payload.php
 
 local json = require("cjson")
 

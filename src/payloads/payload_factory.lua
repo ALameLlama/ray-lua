@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/PayloadFactory.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/PayloadFactory.php
 
 local Utils = require("ray.utils")
 

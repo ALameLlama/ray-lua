@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/src/Payloads/LabelPayload.php
+-- https://github.com/spatie/ray/blob/1.41.2/src/Payloads/LabelPayload.php
 
 ---@type Payload
 local Payload = require("ray.payload")

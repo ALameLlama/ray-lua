@@ -1,0 +1,37 @@
+name: Lint Lua Code with StyLua 🧹
+
+on:
+  pull_request:
+    paths:
+      - "**/*.lua"
+
+jobs:
+  format:
+    name: Run StyLua 🔍
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Lua
+        uses: leafo/gh-actions-lua@v9
+        with:
+          luaVersion: "5.1"
+
+      - name: Install StyLua
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl unzip
+          curl -L https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux.zip -o stylua.zip
+          unzip stylua.zip
+          sudo mv stylua /usr/local/bin/
+
+      - name: Run StyLua on Lua files
+        run: |
+          stylua --check .
+
+      - name: Display output
+        if: failure()
+        run: |
+          echo "StyLua has detected formatting issues. Please run StyLua locally to fix them."
