@@ -1,7 +1,5 @@
 -- https://github.com/spatie/ray/blob/1.41.2/src/Ray.php
 
-local inspect = require("inspect")
-
 local Uuid = require("uuid")
 local Utils = require("ray.utils")
 
@@ -341,8 +339,6 @@ end
 ---@return Ray
 function Ray:send_request(payloads, meta)
 	meta = meta or {}
-
-	-- print(inspect(payloads))
 
 	if not self.enabled() then
 		return Ray
