@@ -91,7 +91,7 @@ end
 function Ray.new(settings, client, uuid)
 	local self = setmetatable({}, Ray)
 
-	-- This is currently setting all the properties of the Ray object instead of the objects it's self.
+	-- This is currently setting all the properties of the Ray "singleton" instead of the object it self.
 	-- Without this chaining methods break, I think I am doing something wrong here.
 	-- I think I should update everthing to use : instead of . so everthing has access to the updated self object?
 	-- This is acting more as a singleton atm.
@@ -147,9 +147,6 @@ end
 ---@param name string
 ---@return Ray
 function Ray.new_screen(name)
-	-- TODO: sanitize name
-	name = name or ""
-
 	local payload = NewScreenPayload(name)
 
 	return Ray:send_request(payload)
@@ -167,15 +164,20 @@ function Ray.clear_screen()
 	return Ray.new_screen()
 end
 
---TODO: add support for grey
 ---@param color string  Supported colors are: green, orange, red, purple, blue, gray
 ---@return Ray
 function Ray.color(color)
+	-- Incase someones spells grey correctly
+	if color == "grey" then
+		color = "gray"
+	end
+
 	local payload = ColorPayload(color)
 
 	return Ray:send_request(payload)
 end
 
+-- Incase someones spells colour correctly
 ---@param color string  Supported colors are: green, orange, red, purple, blue, gray
 ---@return Ray
 function Ray.colour(color)
@@ -320,17 +322,190 @@ function Ray.to_json(...)
 	return Ray:send_request(payloads)
 end
 
----@protected
-function Ray:notify_when_rate_limit_reached()
-	if self.rate_limiter:is_notified() then
-		return
+function Ray.json(...)
+	error("Not implemented")
+end
+
+function Ray.file(filename)
+	error("Not implemented")
+end
+
+function Ray.image(location)
+	error("Not implemented")
+end
+
+---@overload fun()
+---@param status boolean|integer
+function Ray:die(status)
+	os.exit(status or 1)
+end
+
+function Ray.class_name(object)
+	error("Not implemented")
+end
+
+function Ray.luainfo(properties)
+	error("Not implemented")
+end
+
+function Ray._if(bool_or_callable, callable)
+	error("Not implemented")
+end
+
+function Ray.carbon(carbon)
+	error("Not implemented")
+end
+
+function Ray.ban()
+	error("Not implemented")
+end
+
+function Ray.charles()
+	error("Not implemented")
+end
+
+function Ray.table(values, label)
+	error("Not implemented")
+end
+
+function Ray.count(name)
+	error("Not implemented")
+end
+
+function Ray.clear_counters()
+	error("Not implemented")
+end
+
+function Ray.counters_value(name)
+	error("Not implemented")
+end
+
+function Ray.pause()
+	error("Not implemented")
+end
+
+function Ray.separator()
+	error("Not implemented")
+end
+
+function Ray.url(url, label)
+	error("Not implemented")
+end
+
+function Ray.link(url, label)
+	error("Not implemented")
+end
+
+function Ray.html(html)
+	error("Not implemented")
+end
+
+function Ray.confetti()
+	error("Not implemented")
+end
+
+function Ray.exception(exception)
+	error("Not implemented")
+end
+
+function Ray.xml(xml)
+	error("Not implemented")
+end
+
+function Ray.text(text)
+	error("Not implemented")
+end
+
+function Ray:raw(...)
+	local arguments = { ... }
+
+	if #arguments == 0 then
+		return self
 	end
 
-	local custom_payload = CustomPayload("Rate limit has bee  reached...", "Rate limit")
+	local payloads = Utils.array_map(function(argument)
+		-- In PHP this is LogPayload::createForArguments() but we don't have the convert stuff
+		return LogPayload({ argument })
+	end, arguments)
 
-	self.client:send(Request(self.uuid, custom_payload, {}))
+	return self:send_request(payloads)
+end
 
-	self.rate_limiter:notify()
+function Ray.limit(count)
+	error("Not implemented")
+end
+
+function Ray.once(...)
+	error("Not implemented")
+end
+
+function Ray.catch(callback)
+	error("Not implemented")
+end
+
+function Ray.throw_exception()
+	error("Not implemented")
+end
+
+function Ray.invade(object)
+	error("Not implemented")
+end
+
+function Ray:send(...)
+	local arguments = { ... }
+
+	if #arguments == 0 then
+		return self
+	end
+
+	if self.settings.always_send_raw_values then
+		return self:raw(table.unpack(arguments))
+	end
+
+	arguments = Utils.array_map(function(argument)
+		if type(argument) ~= "function" then
+			return argument
+		end
+
+		local status, result = pcall(argument, self)
+
+		if not status then
+			table.insert(self.caught_exception, result)
+
+			return IgnoredValue.make()
+		end
+
+		return result
+	end, arguments)
+
+	--TODO: check if this is correct and filters out IgnoredValue
+	arguments = Utils.array_filter(function(argument)
+		return getmetatable(argument) ~= IgnoredValue
+	end, arguments)
+
+	if #arguments == 0 then
+		return self
+	end
+
+	local payloads = PayloadFactory.create_for_values(arguments)
+
+	return self:send_request(payloads)
+end
+
+function Ray.pass(argument)
+	error("Not implemented")
+end
+
+function Ray.show_app()
+	error("Not implemented")
+end
+
+function Ray.hide_app()
+	error("Not implemented")
+end
+
+function Ray.send_custom(centent, label)
+	error("Not implemented")
 end
 
 ---@overload fun(payload: Payload): Ray
@@ -393,66 +568,22 @@ function Ray:send_request(payloads, meta)
 	return self
 end
 
-function Ray:send(...)
-	local arguments = { ... }
+-- TODO: see if I need these
+-- make_path_os_safe
+-- rate_limiter
+-- before_send_request
 
-	if #arguments == 0 then
-		return self
+---@protected
+function Ray:notify_when_rate_limit_reached()
+	if self.rate_limiter:is_notified() then
+		return
 	end
 
-	if self.settings.always_send_raw_values then
-		return self:raw(table.unpack(arguments))
-	end
+	local custom_payload = CustomPayload("Rate limit has bee  reached...", "Rate limit")
 
-	arguments = Utils.array_map(function(argument)
-		if type(argument) ~= "function" then
-			return argument
-		end
+	self.client:send(Request(self.uuid, custom_payload, {}))
 
-		local status, result = pcall(argument, self)
-
-		if not status then
-			table.insert(self.caught_exception, result)
-
-			return IgnoredValue.make()
-		end
-
-		return result
-	end, arguments)
-
-	--TODO: check if this is correct and filters out IgnoredValue
-	arguments = Utils.array_filter(function(argument)
-		return getmetatable(argument) ~= IgnoredValue
-	end, arguments)
-
-	if #arguments == 0 then
-		return self
-	end
-
-	local payloads = PayloadFactory.create_for_values(arguments)
-
-	return self:send_request(payloads)
-end
-
-function Ray:raw(...)
-	local arguments = { ... }
-
-	if #arguments == 0 then
-		return self
-	end
-
-	local payloads = Utils.array_map(function(argument)
-		-- In PHP this is LogPayload::createForArguments() but we don't have the convert stuff
-		return LogPayload({ argument })
-	end, arguments)
-
-	return self:send_request(payloads)
-end
-
----@overload fun()
----@param status boolean|integer
-function Ray:die(status)
-	os.exit(status or 1)
+	self.rate_limiter:notify()
 end
 
 return Ray

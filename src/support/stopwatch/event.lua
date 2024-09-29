@@ -6,12 +6,12 @@ local Socket = require("socket")
 local StopwatchPeriod = require("ray.support.stopwatch.period")
 
 ---@class SupportStopwatchEvent
----@field periods SupportStopwatchPeriod[]
----@field origin number
----@field category string
----@field more_precision boolean
----@field name string
----@field started number[]
+---@field private periods SupportStopwatchPeriod[]
+---@field private origin number
+---@field private category string
+---@field private more_precision boolean
+---@field private name string
+---@field private started number[]
 local Event = {}
 Event.__index = Event
 
@@ -143,11 +143,13 @@ function Event:get_memory()
 	return memory
 end
 
+---@protected
 ---@return number
 function Event:get_now()
 	return self.format_time((Socket.gettime() * 1000) - self.origin)
 end
 
+---@private
 ---@param time number
 ---@return number
 function Event.format_time(time)

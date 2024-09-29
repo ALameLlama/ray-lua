@@ -1,9 +1,9 @@
 -- https://github.com/symfony/symfony/blob/7.2/src/Symfony/Component/Stopwatch/StopwatchPeriod.php
 
 ---@class SupportStopwatchPeriod
----@field start_time number
----@field end_time number
----@field memory number
+---@field private start_time number
+---@field private end_time number
+---@field private memory number
 local Period = {}
 Period.__index = Period
 

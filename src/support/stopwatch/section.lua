@@ -6,11 +6,11 @@ local Socket = require("socket")
 local StopwatchEvent = require("ray.support.stopwatch.event")
 
 ---@class SupportStopwatchSection
----@field events table<string, SupportStopwatchEvent>
----@field id string
----@field children table<string, SupportStopwatchSection>
----@field origin number?
----@field more_precision boolean
+---@field private events table<string, SupportStopwatchEvent>
+---@field private id string
+---@field private children table<string, SupportStopwatchSection>
+---@field private origin number?
+---@field private more_precision boolean
 local Section = {}
 Section.__index = Section
 

@@ -9,7 +9,6 @@ local Section = require("ray.support.stopwatch.section")
 ---@field private more_precision boolean
 local Stopwatch = {}
 Stopwatch.__index = Stopwatch
-
 Stopwatch.ROOT = "__root__"
 
 function Stopwatch.new(more_precision)
