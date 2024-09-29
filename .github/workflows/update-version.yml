@@ -1,0 +1,52 @@
+name: Update Version 🚀
+
+on:
+  push:
+    tags:
+      - "v*" # Trigger on tags starting with 'v'
+
+jobs:
+  update-files:
+    name: Update Version 🤓
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get the tag version
+        id: get_tag
+        run: echo "::set-output name=version::${GITHUB_REF#refs/tags/v}"
+
+      - name: Set up Lua
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1"
+
+      - name: Update rockspec
+        run: |
+          OLD_VERSION=$(ls ray-*.rockspec | grep -oP '\d+\.\d+\.\d+')
+          NEW_VERSION=${{ steps.get_tag.outputs.version }}
+
+          mv ray-$OLD_VERSION-1.rockspec ray-$NEW_VERSION-1.rockspec
+
+          sed -i "s/version = \"$OLD_VERSION-1\"/version = \"$NEW_VERSION-1\"/" ray-$NEW_VERSION-1.rockspec
+          sed -i "s/tag = \"v$OLD_VERSION\"/tag = \"v$NEW_VERSION\"/" ray-$NEW_VERSION-1.rockspec
+
+      - name: Update Package Version
+        run: |
+          NEW_VERSION=${{ steps.get_tag.outputs.version }}
+
+          sed -i "s/ray_package_version = \".*\"/ray_package_version = \"$NEW_VERSION\"/" src/ray.lua
+
+      - name: Commit changes
+        run: |
+          git config --local user.name "github-actions"
+          git config --local user.email "actions@github.com"
+          git add ray-$NEW_VERSION-1.rockspec src/ray.lua
+          git commit -m "Update rockspec and ray.lua to $NEW_VERSION"
+
+      - name: Push changes
+        run: git push origin HEAD:master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -371,6 +371,7 @@ function Ray:send_request(payloads, meta)
 
 	local all_meta = Utils.array_merge({
 		lua_version = _VERSION,
+		ray_package_version = "2.0.0",
 		project_name = self.project_name,
 	}, meta)
 
