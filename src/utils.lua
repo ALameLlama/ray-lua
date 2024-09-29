@@ -1,3 +1,6 @@
+---@type Payload
+local Payload = require("ray.payload")
+
 local M = {}
 
 -- PHP array_map method
@@ -97,6 +100,47 @@ end
 ---@param array table
 function M.array_key_exists(key, array)
 	return array[key] ~= nil
+end
+
+---@param payloads Payload|Payload[]
+---@return boolean
+function M.payloads_is_empty(payloads)
+	if not payloads then
+		return true
+	end
+
+	if type(payloads) ~= "table" then
+		return true
+	end
+
+	local payloads_mt = getmetatable(getmetatable(payloads))
+
+	-- it's not a Payload object, then it's an array of payloads
+	if not M.payload_is_object(payloads) then
+		return M.payloads_is_empty(payloads[1])
+	end
+
+	if payloads_mt.__index ~= Payload.__index then
+		return true
+	end
+
+	return false
+end
+
+---@param payload Payload|Payload[]
+---@return boolean
+function M.payload_is_object(payload)
+	if not payload then
+		return false
+	end
+
+	local payload_mt = getmetatable(getmetatable(payload))
+
+	if not payload_mt then
+		return false
+	end
+
+	return payload_mt.__index == Payload.__index
 end
 
 return M

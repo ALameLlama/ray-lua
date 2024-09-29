@@ -1,5 +1,7 @@
 -- https://github.com/spatie/ray/blob/1.41.2/src/Ray.php
 
+local inspect = require("inspect")
+
 local Uuid = require("uuid")
 local Utils = require("ray.utils")
 
@@ -25,22 +27,26 @@ local IgnoredValue = require("ray.support.ignored_value")
 ---@type SupportRateLimiter
 local RateLimiter = require("ray.support.rate_limiter")
 
+---@type SupportStopwatch
+local Stopwatch = require("ray.support.stopwatch")
+
 -- Payloads
 ---@type PayloadFactory
 local PayloadFactory = require("ray.payload.payload_factory")
 
-local CustomPayload = require("ray.payload.custom_payload")
-local LogPayload = require("ray.payload.log_payload")
-local NewScreenPayload = require("ray.payload.new_screen_payload")
 local ClearAllPayload = require("ray.payload.clear_all_payload")
 local ColorPayload = require("ray.payload.color_payload")
-local ScreenColorPayload = require("ray.payload.screen_color_payload")
-local LabelPayload = require("ray.payload.label_payload")
-local SizePayload = require("ray.payload.size_payload")
-local RemovePayload = require("ray.payload.remove_payload")
+local CustomPayload = require("ray.payload.custom_payload")
 local HidePayload = require("ray.payload.hide_payload")
-local NotifyPayload = require("ray.payload.notify_payload")
 local JsonStringPayload = require("ray.payload.json_string_payload")
+local LabelPayload = require("ray.payload.label_payload")
+local LogPayload = require("ray.payload.log_payload")
+local NewScreenPayload = require("ray.payload.new_screen_payload")
+local NotifyPayload = require("ray.payload.notify_payload")
+local MeasurePayload = require("ray.payload.measure_payload")
+local RemovePayload = require("ray.payload.remove_payload")
+local ScreenColorPayload = require("ray.payload.screen_color_payload")
+local SizePayload = require("ray.payload.size_payload")
 
 ---@class Ray
 ---@field public settings Settings
@@ -87,11 +93,15 @@ end
 function Ray.new(settings, client, uuid)
 	local self = setmetatable({}, Ray)
 
-	self.settings = settings
+	-- This is currently setting all the properties of the Ray object instead of the objects it's self.
+	-- Without this chaining methods break, I think I am doing something wrong here.
+	-- I think I should update everthing to use : instead of . so everthing has access to the updated self object?
+	-- This is acting more as a singleton atm.
+	Ray.settings = settings
 	Ray.client = client or Ray.client or Client.new(settings.port, settings.host)
 	Ray.counters = Ray.counters or Counters
 	Ray.limiters = Ray.limiters or Limiters
-	self.uuid = uuid or Ray.fake_uuid or Uuid()
+	Ray.uuid = uuid or Ray.fake_uuid or Uuid()
 	Ray.rate_limiter = Ray.rate_limiter or RateLimiter:disabled()
 	Ray.enabled = Ray.enabled or self.settings.enable or true
 
@@ -218,9 +228,34 @@ function Ray.hide()
 	return Ray:send_request(payload)
 end
 
----@param stopwatch_name string|function
+---@param stopwatch_name string|function|nil
+---@return Ray
 function Ray.measure(stopwatch_name)
-	error("Not implemented")
+	if type(stopwatch_name) == "function" then
+		return Ray.measure_closure(stopwatch_name)
+	end
+
+	if stopwatch_name == nil then
+		stopwatch_name = "default"
+	end
+
+	if not Ray.stop_watches[stopwatch_name] then
+		local stopwatch = Stopwatch.new(true)
+		Ray.stop_watches[stopwatch_name] = stopwatch
+
+		local event = stopwatch:start(stopwatch_name)
+
+		local payload = MeasurePayload(stopwatch_name, event)
+		payload:concerns_new_timer()
+
+		return Ray:send_request(payload)
+	end
+
+	local stopwatch = Ray.stop_watches[stopwatch_name]
+	local event = stopwatch:lap(stopwatch_name)
+	local payload = MeasurePayload(stopwatch_name, event)
+
+	return Ray:send_request(payload)
 end
 
 ---@param starting_from_frame function?
@@ -235,6 +270,22 @@ end
 
 function Ray.caller()
 	error("Not implemented")
+end
+
+---@param closure function
+---@return Ray
+function Ray.measure_closure(closure)
+	local stopwatch = Stopwatch.new(true)
+
+	stopwatch:start("closure")
+
+	closure()
+
+	local event = stopwatch:stop("closure")
+
+	local payload = MeasurePayload("Closure", event)
+
+	return Ray:send_request(payload)
 end
 
 function Ray.expand(...)
@@ -291,11 +342,13 @@ end
 function Ray:send_request(payloads, meta)
 	meta = meta or {}
 
+	-- print(inspect(payloads))
+
 	if not self.enabled() then
 		return Ray
 	end
 
-	if not payloads or #payloads == 0 then
+	if not payloads or Utils.payloads_is_empty(payloads) then
 		return Ray
 	end
 
@@ -311,7 +364,7 @@ function Ray:send_request(payloads, meta)
 		self.limiters:increment(self.limit_origin)
 	end
 
-	if type(payloads) ~= "table" then
+	if Utils.payload_is_object(payloads) then
 		payloads = { payloads }
 	end
 
