@@ -1,5 +1,7 @@
 -- https://github.com/symfony/symfony/blob/7.2/src/Symfony/Component/Stopwatch/Section.php
 
+local Socket = require("socket")
+
 ---@type SupportStopwatchEvent
 local StopwatchEvent = require("ray.support.stopwatch.event")
 
@@ -41,7 +43,7 @@ function Section:open(id)
   local session
 
   if id == nil or self:get(id) == nil then
-    session = Section.new(os.time() * 1000, self.more_precision)
+    session = Section.new((Socket.gettime() * 1000), self.more_precision)
     table.insert(self.children, session)
   else
     session = self:get(id)
@@ -62,7 +64,8 @@ end
 
 function Section:start_event(name, category)
   if self.events[name] == nil then
-    self.events[name] = StopwatchEvent.new(self.origin or os.time() * 1000, category, self.more_precision, name)
+    self.events[name] =
+        StopwatchEvent.new(self.origin or (Socket.gettime() * 1000), category, self.more_precision, name)
   end
 
   return self.events[name]:start()

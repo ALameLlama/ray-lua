@@ -1,5 +1,7 @@
 -- https://github.com/symfony/symfony/blob/7.2/src/Symfony/Component/Stopwatch/StopwatchEvent.php
 
+local Socket = require("socket")
+
 ---@type SupportStopwatchPeriod
 local StopwatchPeriod = require("ray.support.stopwatch.period")
 
@@ -143,7 +145,7 @@ end
 
 ---@return number
 function Event:get_now()
-  return self.format_time(os.time() * 1000 - self.origin)
+  return self.format_time((Socket.gettime() * 1000) - self.origin)
 end
 
 ---@param time number
