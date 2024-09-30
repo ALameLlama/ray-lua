@@ -1,4 +1,4 @@
--- https://github.com/spatie/ray/blob/main/tests/Support/LimitersTest.php
+-- https://github.com/spatie/ray/blob/1.41.2/tests/Support/LimitersTest.php
 
 local lu = require("luaunit")
 
