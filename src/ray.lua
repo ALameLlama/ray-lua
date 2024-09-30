@@ -357,11 +357,12 @@ function Ray.carbon(carbon)
 end
 
 function Ray.ban()
-	error("Not implemented")
+	return Ray.send("🕶")
 end
 
+---@return Ray
 function Ray.charles()
-	error("Not implemented")
+	return Ray.send("🎶 🎹 🎷 🕺")
 end
 
 function Ray.table(values, label)
@@ -451,6 +452,7 @@ function Ray.invade(object)
 	error("Not implemented")
 end
 
+---@param arguments any|any[]
 function Ray:send(...)
 	local arguments = { ... }
 

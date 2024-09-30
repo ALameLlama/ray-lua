@@ -70,11 +70,11 @@ function SettingsFactory:search_config_files_on_disk(config_directory)
 		"ray.lua",
 	}
 
-	local config_directory = config_directory or lfs.currentdir()
+	local conf_directory = config_directory or lfs.currentdir()
 
-	while lfs.attributes(config_directory, "mode") == "directory" do
+	while lfs.attributes(conf_directory, "mode") == "directory" do
 		for _, config_name in ipairs(config_names) do
-			local config_full_path = config_directory .. "/" .. config_name
+			local config_full_path = conf_directory .. "/" .. config_name
 
 			-- this is to fake the PHP file_exists function
 			-- os.rename will return nil if the file does not exist
@@ -83,13 +83,13 @@ function SettingsFactory:search_config_files_on_disk(config_directory)
 			end
 		end
 
-		local parent_directory = config_directory:match("(.*[/\\])")
+		local parent_directory = conf_directory:match("(.*[/\\])")
 
-		if parent_directory == config_directory then
+		if parent_directory == conf_directory then
 			return ""
 		end
 
-		config_directory = parent_directory
+		conf_directory = parent_directory
 	end
 
 	return ""
