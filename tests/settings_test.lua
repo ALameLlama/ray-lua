@@ -43,9 +43,10 @@ function TestSettings:testCanFindTheSettingsFileMoreThanOnce()
 end
 
 function TestSettings:testCanCreateSettingsFromArray()
-	---@type Settings
+	---@diagnostic disable: missing-fields
 	local settings = SettingsFactory.create_from_array({ enabled = false, port = 1234 })
 
+	---@diagnostic disable: undefined-field
 	lu.assertEquals(settings.enabled, false)
 	lu.assertEquals(settings.port, 1234)
 end

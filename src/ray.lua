@@ -356,13 +356,14 @@ function Ray.carbon(carbon)
 	error("Not implemented")
 end
 
+---@return Ray
 function Ray.ban()
-	return Ray.send("🕶")
+	return Ray:send("🕶")
 end
 
 ---@return Ray
 function Ray.charles()
-	return Ray.send("🎶 🎹 🎷 🕺")
+	return Ray:send("🎶 🎹 🎷 🕺")
 end
 
 function Ray.table(values, label)
@@ -452,7 +453,6 @@ function Ray.invade(object)
 	error("Not implemented")
 end
 
----@param arguments any|any[]
 function Ray:send(...)
 	local arguments = { ... }
 
@@ -571,8 +571,6 @@ function Ray:send_request(payloads, meta)
 end
 
 -- TODO: see if I need these
--- make_path_os_safe
--- rate_limiter
 -- before_send_request
 
 -- TODO: they have traits to add more functions like size and color
