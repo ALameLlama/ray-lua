@@ -50,48 +50,51 @@ _Note:_ These are the default settings, You only need to add the settings you're
 
 ## API Reference
 
-- `ray(...message)`: Logs a message to the ray debugger.
-- `ray(...message).color(color_name)`: Logs a message to the ray debugger with a specified color.
-  - Green
-  - Orange
-  - Red
-  - Purple
-  - Blue
-  - Gray
-- `ray().screen_color(colour_name)`
-  - Green
-  - Orange
-  - Red
-  - Purple
-  - Blue
-  - Gray
-- `ray().label(label)`
-- `ray().size(size)`
-- `ray().remove()`
-- `ray().hide()`
-- `ray().measure(name_or_closure)`
-- `ray().measure_closure(closure)`
-- `ray().notify(text)`
-- `ray().to_json(...text)`
-- `ray().die()`: Sends a exit signal after logging to ray debugger.
-- `ray().clear()`: Clear the current Logs within ray debugger.
-- `ray().ban()`: 🕶
-- `ray().charles()`: 🎶 🎹 🎷 🕺
-- `ray().raw(...args)`
-- `ray().send(...args)`
-- `ray().send_request(payload, meta)`
+- `ray(...message)`: Logs messages to the Ray debugger.
+- `ray(message, another_one)`: Can take multiple messages to the Ray debugger.
+- `ray(...message).color(color_name)`: Logs a message with a specified color:
+  - green
+  - orange
+  - red
+  - purple
+  - blue
+  - gray
+- `ray().screen_color(color_name)`: Changes the entire screen’s background color:
+  - green
+  - orange
+  - red
+  - purple
+  - blue
+  - gray
+- `ray().label(label)`: Attaches a label to the message.
+- `ray().size(size)`: Sets the size of the message (large or small).
+  - sm
+  - lg
+- `ray().remove()`: Removes a specific message from the Ray debugger.
+- `ray().hide()`: Hides the message from view.
+- `ray().measure(name_or_closure)`: Measures execution time for a named task or closure.
+- `ray().measure_closure(closure)`: Times the execution of a given closure.
+- `ray().notify(text)`: Sends a notification.
+- `ray().to_json(...text)`: Converts and logs data as JSON.
+- `ray().die()`: Logs the message and halts execution.
+- `ray().clear()`: Clears the current logs in the Ray debugger.
+- `ray().ban()`: Silences the output (ban Ray logging).
+- `ray().charles()`: Logs a playful note (specific to your implementation).
+- `ray().raw(...args)`: Logs raw, unformatted data.
+- `ray().send(...args)`: Sends the message to the Ray debugger.
+- `ray().send_request(payload, meta)`: Sends a custom request with payload and metadata.
 
 ## Ray Client Settings
 
-- `ray().project(project_name)`
-- `ray().enable()`
-- `ray().disable()`
-- `ray().enabled()`
-- `ray().disabled()`
-- `ray().use_client(client)`
-- `ray().new_screen(name)`
-- `ray().clear_all()`
-- `ray().clear_screen()`
+- `ray().project(project_name)`: Specifies the current project name.
+- `ray().enable()`: Enables Ray logging.
+- `ray().disable()`: Disables Ray logging.
+- `ray().enabled()`: Checks if Ray logging is enabled.
+- `ray().disabled()`: Checks if Ray logging is disabled.
+- `ray().use_client(client)`: Switches to a different client.
+- `ray().new_screen(name)`: Starts a new screen with an optional name.
+- `ray().clear_all()`: Clears all logs from Ray.
+- `ray().clear_screen()`: Clears the current screen.
 
 ## TODO:
 
