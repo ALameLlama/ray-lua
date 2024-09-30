@@ -575,6 +575,8 @@ end
 -- rate_limiter
 -- before_send_request
 
+-- TODO: they have traits to add more functions like size and color
+
 ---@protected
 function Ray:notify_when_rate_limit_reached()
 	if self.rate_limiter:is_notified() then

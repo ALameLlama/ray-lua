@@ -68,6 +68,7 @@ build = {
 		["ray.support.stopwatch.period"] = "src/support/stopwatch/period.lua",
 		["ray.support.stopwatch.section"] = "src/support/stopwatch/section.lua",
 		["ray.utils"] = "src/utils.lua",
+		["ray.test.utils"] = "tests/utils.lua",
 	},
 	copy_directories = { "doc" },
 }

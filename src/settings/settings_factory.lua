@@ -4,6 +4,8 @@ local lfs = require("lfs")
 
 ---@type Settings
 local Settings = require("ray.settings")
+---@type Utils
+local Utils = require("ray.utils")
 
 ---@class SettingsFactory
 ---@field public cache table<string, string>
@@ -74,7 +76,7 @@ function SettingsFactory:search_config_files_on_disk(config_directory)
 
 	while lfs.attributes(conf_directory, "mode") == "directory" do
 		for _, config_name in ipairs(config_names) do
-			local config_full_path = conf_directory .. "/" .. config_name
+			local config_full_path = Utils.join_paths(conf_directory, config_name)
 
 			-- this is to fake the PHP file_exists function
 			-- os.rename will return nil if the file does not exist
@@ -83,9 +85,9 @@ function SettingsFactory:search_config_files_on_disk(config_directory)
 			end
 		end
 
-		local parent_directory = conf_directory:match("(.*[/\\])")
+		local parent_directory = conf_directory:match("(.*)[/\\][^/\\]+$")
 
-		if parent_directory == conf_directory then
+		if not parent_directory or parent_directory == conf_directory then
 			return ""
 		end
 

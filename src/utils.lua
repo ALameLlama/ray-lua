@@ -1,6 +1,7 @@
 ---@type Payload
 local Payload = require("ray.payload")
 
+---@class Utils
 local M = {}
 
 -- PHP array_map method
@@ -141,6 +142,16 @@ function M.payload_is_object(payload)
 	end
 
 	return payload_mt.__index == Payload.__index
+end
+
+function M.join_paths(base, name)
+	local sep = package.config:sub(1, 1)
+
+	if base:sub(-1) == sep then
+		return base .. name
+	else
+		return base .. sep .. name
+	end
 end
 
 return M
