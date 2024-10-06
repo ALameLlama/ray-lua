@@ -2,14 +2,13 @@
 
 local Utils = require("ray.utils")
 
----@type BoolPayload
 local BoolPayload = require("ray.payload.bool_payload")
-
----@type NullPayload
 local NullPayload = require("ray.payload.null_payload")
-
----@type LogPayload
 local LogPayload = require("ray.payload.log_payload")
+local HtmlPayload = require("ray.payload.html_payload")
+
+---@type ArgumentConverter
+local ArgumentConverter = require("ray.argument_converter")
 
 ---@class PayloadFactory
 ---@field protected values table
@@ -70,12 +69,13 @@ function PayloadFactory:get_payload(value)
 	--   return CarbonPayload.new(value)
 	-- end
 
-	-- In the PHP version, the ArgumentConverter class is used to convert the value to a primitive value.
-	-- Lua is a lot more of a simple language than PHP, so we can just use the value directly.
-	-- local primitive_value = ArgumentConverter.convert_to_primitive(value)
-	-- return LogPayload(primitive_value, value)
+	local primitive_value = ArgumentConverter.convert_to_primitive(value)
 
-	return LogPayload(value, value)
+	if primitive_value.is_html then
+		return HtmlPayload(primitive_value.value, value)
+	end
+
+	return LogPayload(primitive_value.value, value)
 end
 
 return PayloadFactory

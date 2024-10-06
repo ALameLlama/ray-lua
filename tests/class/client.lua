@@ -47,7 +47,7 @@ function TestClient:send(request)
 	for _, payload in ipairs(request_properties.payloads) do
 		payload.origin.file = self:convert_to_relative_filename(payload.origin.file)
 
-		-- TODO: see if this is needed, this is laravel dump/dd stuff
+		-- TODO: see if this is needed, this is symfony html dump stuff
 		-- if payload.content.values and payload.content.values[1] then
 		--   if type(payload.content.values[1]) ~= "boolean" then
 		--     payload.content.values = string.gsub(payload.content.values, "sf-dump-%d+", "sf-dump-xxxxxxxxxx")

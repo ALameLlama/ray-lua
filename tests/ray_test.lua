@@ -17,6 +17,18 @@ require("ray")
 
 TestRay = {}
 
+local function get_value_of_last_sent_content(content_key)
+	local payload = TestRay.client:sent_payloads()
+
+	if #payload == 0 then
+		return nil
+	end
+
+	local last_payload = payload[#payload]
+
+	return last_payload.payloads[1].content[content_key][1]
+end
+
 function TestRay:setUp()
 	Hostname:set("fake-hostname")
 
@@ -51,4 +63,13 @@ function TestRay:testTheRyFunctionAlsoWorks()
 	ray("a")
 
 	lu.assertEquals(self.client:sent_payloads(), TestUtils.getSnapshot("ray_test_the_ray_function_also_works"))
+end
+
+function TestRay:testCanSendAnArrayToRay()
+	self.ray:send({ a = 1, b = 2 })
+
+	local dumped_value = get_value_of_last_sent_content("values")
+
+	lu.assertStrContains(dumped_value, "a = 1")
+	lu.assertStrContains(dumped_value, "b = 2")
 end

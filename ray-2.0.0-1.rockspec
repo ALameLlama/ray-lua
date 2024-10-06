@@ -26,6 +26,7 @@ dependencies = {
 	"luafilesystem >= 1.8",
 	"md5 >= 1.1",
 	"uuid >= 0.3",
+	"inspect >= 3.1",
 }
 build = {
 	type = "builtin",
@@ -33,6 +34,7 @@ build = {
 		["ray"] = "src/helpers.lua", -- this emulates php global helper functions
 		["ray.ray"] = "src/ray.lua",
 		["ray.client"] = "src/client.lua",
+		["ray.argument_converter"] = "src/argument_converter.lua",
 		["ray.origin"] = "src/origin/origin.lua",
 		["ray.origin.default_origin_factory"] = "src/origin/default_origin_factory.lua",
 		["ray.origin.hostname"] = "src/origin/hostname.lua",
