@@ -1,8 +1,8 @@
 # Usage
 
 ```lua
--- This imports 2 global functions ray() and rd()
-require("ray")
+-- This imports 2 functions ray() and rd()
+ray, rd = unpack(require("ray"))
 
 function main()
     ray("Hello World!")

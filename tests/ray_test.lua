@@ -13,7 +13,7 @@ local Hostname = require("ray.origin.hostname")
 ---@type TestUtils
 local TestUtils = require("ray.test.utils")
 
-require("ray")
+local ray, rd = unpack(require("ray"))
 
 TestRay = {}
 
