@@ -13,7 +13,7 @@ local Hostname = require("ray.origin.hostname")
 ---@type TestUtils
 local TestUtils = require("ray.test.utils")
 
-local ray, rd = unpack(require("ray"))
+local ray, _ = unpack(require("ray"))
 
 TestRay = {}
 
@@ -99,4 +99,16 @@ function TestRay:testCanSendALaebl()
 	self.ray:send("my value").label("my label")
 
 	lu.assertEquals(self.client:sent_payloads(), TestUtils.getSnapshot("ray_test_can_send_a_label"))
+end
+
+function TestRay:testCanSendAHidePayloadToRay()
+	self.ray:hide()
+
+	lu.assertEquals(self.client:sent_payloads(), TestUtils.getSnapshot("ray_test_can_send_a_hide_payload_to_ray"))
+end
+
+function TestRay:testCanSendARemovePayloadToRay()
+	self.ray:remove()
+
+	lu.assertEquals(self.client:sent_payloads(), TestUtils.getSnapshot("ray_test_can_send_a_remove_payload_to_ray"))
 end
