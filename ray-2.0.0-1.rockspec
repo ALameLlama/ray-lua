@@ -43,6 +43,7 @@ build = {
 		["ray.payload.color_payload"] = "src/payloads/color_payload.lua",
 		["ray.payload.custom_payload"] = "src/payloads/custom_payload.lua",
 		["ray.payload.hide_payload"] = "src/payloads/hide_payload.lua",
+		["ray.payload.html_payload"] = "src/payloads/html_payload.lua",
 		["ray.payload.json_string_payload"] = "src/payloads/json_string_payload.lua",
 		["ray.payload.label_payload"] = "src/payloads/label_payload.lua",
 		["ray.payload.log_payload"] = "src/payloads/log_payload.lua",

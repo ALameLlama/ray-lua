@@ -36,12 +36,13 @@ local ClearAllPayload = require("ray.payload.clear_all_payload")
 local ColorPayload = require("ray.payload.color_payload")
 local CustomPayload = require("ray.payload.custom_payload")
 local HidePayload = require("ray.payload.hide_payload")
+local HtmlPayload = require("ray.payload.html_payload")
 local JsonStringPayload = require("ray.payload.json_string_payload")
 local LabelPayload = require("ray.payload.label_payload")
 local LogPayload = require("ray.payload.log_payload")
+local MeasurePayload = require("ray.payload.measure_payload")
 local NewScreenPayload = require("ray.payload.new_screen_payload")
 local NotifyPayload = require("ray.payload.notify_payload")
-local MeasurePayload = require("ray.payload.measure_payload")
 local RemovePayload = require("ray.payload.remove_payload")
 local ScreenColorPayload = require("ray.payload.screen_color_payload")
 local SizePayload = require("ray.payload.size_payload")
@@ -398,8 +399,12 @@ function Ray.link(url, label)
 	error("Not implemented")
 end
 
+---@param html string
+---@return Ray
 function Ray.html(html)
-	error("Not implemented")
+	local payload = HtmlPayload(html)
+
+	return Ray:send_request(payload)
 end
 
 function Ray.confetti()

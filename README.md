@@ -83,6 +83,7 @@ _Note:_ These are the default settings, You only need to add the settings you're
 - `ray().raw(...args)`: Logs raw, unformatted data.
 - `ray().send(...args)`: Sends the message to the Ray debugger.
 - `ray().send_request(payload, meta)`: Sends a custom request with payload and metadata.
+- `ray().html(html)`: Sends a string of HTML to the Ray debugger
 
 ## Ray Client Settings
 
