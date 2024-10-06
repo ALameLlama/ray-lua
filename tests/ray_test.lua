@@ -94,3 +94,9 @@ function TestRay:testCanSendAScreenColor()
 
 	lu.assertEquals(self.client:sent_payloads(), TestUtils.getSnapshot("ray_test_can_send_a_screen_color"))
 end
+
+function TestRay:testCanSendALaebl()
+	self.ray:send("my value").label("my label")
+
+	lu.assertEquals(self.client:sent_payloads(), TestUtils.getSnapshot("ray_test_can_send_a_label"))
+end
