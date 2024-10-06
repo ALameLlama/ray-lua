@@ -43,6 +43,12 @@ _Note:_ These are the default settings, You only need to add the settings you're
   - purple
   - blue
   - gray
+- `ray().green()`: Alias for `ray().color("green")`
+- `ray().orange()`: Alias for `ray().color("orange")`
+- `ray().red()`: Alias for `ray().color("red")`
+- `ray().purple()`: Alias for `ray().color("purple")`
+- `ray().blue()`: Alias for `ray().color("blue")`
+- `ray().gray()`: Alias for `ray().color("gray")`
 - `ray().screen_color(color_name)`: Changes the entire screen’s background color:
   - green
   - orange
@@ -50,10 +56,19 @@ _Note:_ These are the default settings, You only need to add the settings you're
   - purple
   - blue
   - gray
+- `ray().screen_green()`: Alias for `ray().screen_color("green")`
+- `ray().screen_orange()`: Alias for `ray().screen_color("orange")`
+- `ray().screen_red()`: Alias for `ray().screen_color("red")`
+- `ray().screen_purple()`: Alias for `ray().screen_color("purple")`
+- `ray().screen_blue()`: Alias for `ray().screen_color("blue")`
+- `ray().screen_gray()`: Alias for `ray().screen_color("gray")`
 - `ray().label(label)`: Attaches a label to the message.
+
 - `ray().size(size)`: Sets the size of the message (large or small).
   - sm
   - lg
+- `ray().small()`: Alias for `ray().size("sm")`
+- `ray().large()`: Alias for `ray().size("lg")`
 - `ray().remove()`: Removes a specific message from the Ray debugger.
 - `ray().hide()`: Hides the message from view.
 - `ray().measure(name_or_closure)`: Measures execution time for a named task or closure.

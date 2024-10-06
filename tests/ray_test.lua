@@ -73,3 +73,24 @@ function TestRay:testCanSendAnArrayToRay()
 	lu.assertStrContains(dumped_value, "a = 1")
 	lu.assertStrContains(dumped_value, "b = 2")
 end
+
+function TestRay:testCanSendMultipleThingsInOneGoToRay()
+	self.ray:send("first", "second", "third")
+
+	lu.assertEquals(
+		self.client:sent_payloads(),
+		TestUtils.getSnapshot("ray_test_can_send_multiple_things_in_one_go_to_ray")
+	)
+end
+
+function TestRay:testCanSendAColorAndASize()
+	self.ray:send("test", "test2").color("green").size("big")
+
+	lu.assertEquals(self.client:sent_payloads(), TestUtils.getSnapshot("ray_test_can_send_a_color_and_a_size"))
+end
+
+function TestRay:testCanSendAScreenColor()
+	self.ray.screen_green()
+
+	lu.assertEquals(self.client:sent_payloads(), TestUtils.getSnapshot("ray_test_can_send_a_screen_color"))
+end

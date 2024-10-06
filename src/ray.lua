@@ -47,6 +47,10 @@ local RemovePayload = require("ray.payload.remove_payload")
 local ScreenColorPayload = require("ray.payload.screen_color_payload")
 local SizePayload = require("ray.payload.size_payload")
 
+local Colors = require("ray.concerns.colors")
+local ScreenColors = require("ray.concerns.screen_colors")
+local Sizes = require("ray.concerns.sizes")
+
 ---@class Ray
 ---@field public settings Settings
 ---@field protected client Client
@@ -62,6 +66,22 @@ local SizePayload = require("ray.payload.size_payload")
 ---@field public rate_limiter SupportRateLimiter
 ---@field public project_name string
 ---@field public before_send_request function?
+---@field public screen_green fun(): Ray
+---@field public screen_orange fun(): Ray
+---@field public screen_red fun(): Ray
+---@field public screen_purple fun(): Ray
+---@field public screen_blue fun(): Ray
+---@field public screen_gray fun(): Ray
+---@field public screen_grey fun(): Ray
+---@field public green fun(): Ray
+---@field public orange fun(): Ray
+---@field public red fun(): Ray
+---@field public purple fun(): Ray
+---@field public blue fun(): Ray
+---@field public gray fun(): Ray
+---@field public grey fun(): Ray
+---@field public small fun(): Ray
+---@field public large fun(): Ray
 local Ray = {}
 Ray.__index = Ray
 Ray.uuid = ""
@@ -71,6 +91,20 @@ Ray.stop_watches = {}
 Ray._enabled = nil
 Ray.project_name = ""
 Ray.before_send_request = nil
+
+-- Trait system
+local function use(instance, ...)
+	local traits = { ... }
+	for _, trait in ipairs(traits) do
+		for key, value in pairs(trait) do
+			if type(value) == "function" then
+				instance[key] = function(...)
+					return value(instance, ...)
+				end
+			end
+		end
+	end
+end
 
 ---@param client Client
 ---@param uuid string
@@ -103,6 +137,8 @@ function Ray.new(settings, client, uuid)
 	Ray.uuid = uuid or Ray.fake_uuid or Uuid()
 	Ray.rate_limiter = Ray.rate_limiter or RateLimiter:disabled()
 	Ray.enabled = Ray.enabled or self.settings.enable or true
+
+	use(self, Colors, ScreenColors, Sizes)
 
 	return self
 end
