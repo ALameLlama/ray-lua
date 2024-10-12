@@ -32,7 +32,6 @@ function MeasurePayload.new(name, stopwatch_event)
 	self.time_since_last_call = 0
 	self.max_memory_usage_since_last_call = 0
 
-	
 	self.total_time = stopwatch_event:get_duration()
 	self.max_memory_usage_during_total_time = stopwatch_event:get_memory()
 
@@ -74,7 +73,7 @@ function MeasurePayload:get_content()
 		total_time = self.total_time,
 		max_memory_usage_during_total_time = self.max_memory_usage_during_total_time,
 		time_since_last_call = self.time_since_last_call,
-		max_memory_usage_since_last_call = self.max_memory_usage_since_last_call
+		max_memory_usage_since_last_call = self.max_memory_usage_since_last_call,
 	}
 end
 

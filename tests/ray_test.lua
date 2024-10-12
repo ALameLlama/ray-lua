@@ -195,3 +195,17 @@ function TestRay:testRemoveANamedStopwatchWhenStoppingTime()
 
 	lu.assertNil(self.ray.stop_watches["test-timer"])
 end
+
+-- TODO: add trace,backtrace,caller tests
+
+function TestRay:testCanSendTheBanPayload()
+	self.ray.ban()
+
+	lu.assertEquals(self.client:sent_payloads(), TestUtils.getSnapshot("ray_test_can_send_the_ban_payload"))
+end
+
+function TestRay:testCanSendTheCharlesPayload()
+	self.ray.charles()
+
+	lu.assertEquals(self.client:sent_payloads(), TestUtils.getSnapshot("ray_test_can_send_the_charles_payload"))
+end
