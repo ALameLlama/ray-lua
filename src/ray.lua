@@ -333,8 +333,23 @@ function Ray.expand_all()
 	return Ray.expand(999)
 end
 
+---@overload fun(): Ray
+---@param stopwatch_name string
+---@return Ray
 function Ray.stop_time(stopwatch_name)
-	error("Not implemented")
+	if stopwatch_name == "" or stopwatch_name == nil then
+		Ray.stop_watches = {}
+
+		return Ray
+	end
+
+	if Ray.stop_watches[stopwatch_name] then
+		Ray.stop_watches[stopwatch_name] = nil
+
+		return Ray
+	end
+
+	return Ray
 end
 
 ---@param text string
@@ -385,8 +400,24 @@ function Ray.luainfo(properties)
 	error("Not implemented")
 end
 
-function Ray._if(bool_or_callable, callable)
-	error("Not implemented")
+-- This is the `If` method from PHP
+---@param bool_or_callable boolean|function
+---@param callable function
+---@return Ray
+function Ray.conditional(bool_or_callable, callable)
+	if type(bool_or_callable) == "function" then
+		bool_or_callable = bool_or_callable()
+	end
+
+	if bool_or_callable and type(callable) == "function" then
+		callable(Ray)
+	end
+
+	if not callable then
+		Ray.can_send_payload = bool_or_callable
+	end
+
+	return Ray
 end
 
 function Ray.carbon(carbon)

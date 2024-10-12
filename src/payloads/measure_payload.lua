@@ -9,7 +9,7 @@ local Payload = require("ray.payload")
 ---@field protected total_time number
 ---@field protected max_memory_usage_during_total_time number
 ---@field protected time_since_last_call number
----@field protected max_memory_since_last_call number
+---@field protected max_memory_usage_since_last_call number
 local MeasurePayload = {}
 MeasurePayload.__index = MeasurePayload
 
@@ -30,8 +30,9 @@ function MeasurePayload.new(name, stopwatch_event)
 	self.name = name
 	self.is_new_timer = false
 	self.time_since_last_call = 0
-	self.max_memory_since_last_call = 0
+	self.max_memory_usage_since_last_call = 0
 
+	
 	self.total_time = stopwatch_event:get_duration()
 	self.max_memory_usage_during_total_time = stopwatch_event:get_memory()
 
@@ -42,7 +43,7 @@ function MeasurePayload.new(name, stopwatch_event)
 
 		if last_period then
 			self.time_since_last_call = last_period:get_duration()
-			self.max_memory_since_last_call = last_period:get_memory()
+			self.max_memory_usage_since_last_call = last_period:get_memory()
 		end
 	end
 
@@ -55,7 +56,7 @@ function MeasurePayload:concerns_new_timer()
 	self.total_time = 0
 	self.max_memory_usage_during_total_time = 0
 	self.time_since_last_call = 0
-	self.max_memory_since_last_call = 0
+	self.max_memory_usage_since_last_call = 0
 
 	return self
 end
@@ -73,7 +74,7 @@ function MeasurePayload:get_content()
 		total_time = self.total_time,
 		max_memory_usage_during_total_time = self.max_memory_usage_during_total_time,
 		time_since_last_call = self.time_since_last_call,
-		max_memory_since_last_call = self.max_memory_since_last_call,
+		max_memory_usage_since_last_call = self.max_memory_usage_since_last_call
 	}
 end
 

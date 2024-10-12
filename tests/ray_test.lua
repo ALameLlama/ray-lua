@@ -26,7 +26,7 @@ local function get_value_of_last_sent_content(content_key)
 
 	local last_payload = payload[#payload]
 
-	return last_payload.payloads[1].content[content_key][1]
+	return last_payload.payloads[1].content[content_key]
 end
 
 function TestRay:setUp()
@@ -68,7 +68,7 @@ end
 function TestRay:testCanSendAnArrayToRay()
 	self.ray:send({ a = 1, b = 2 })
 
-	local dumped_value = get_value_of_last_sent_content("values")
+	local dumped_value = get_value_of_last_sent_content("values")[1]
 
 	lu.assertStrContains(dumped_value, "a = 1")
 	lu.assertStrContains(dumped_value, "b = 2")
@@ -111,4 +111,87 @@ function TestRay:testCanSendARemovePayloadToRay()
 	self.ray:remove()
 
 	lu.assertEquals(self.client:sent_payloads(), TestUtils.getSnapshot("ray_test_can_send_a_remove_payload_to_ray"))
+end
+
+function TestRay:testCanMeasureTimeAndMemory()
+	local payload = {}
+	self.ray.measure()
+
+	payload = self.client:sent_payloads()
+	lu.assertEquals(#payload, 1)
+
+	lu.assertEquals(get_value_of_last_sent_content("is_new_timer"), true)
+	lu.assertEquals(get_value_of_last_sent_content("total_time"), 0)
+	lu.assertEquals(get_value_of_last_sent_content("max_memory_usage_during_total_time"), 0)
+	lu.assertEquals(get_value_of_last_sent_content("time_since_last_call"), 0)
+	lu.assertEquals(get_value_of_last_sent_content("max_memory_usage_since_last_call"), 0)
+
+	os.execute("sleep 0.001")
+
+	self.ray.measure()
+
+	payload = self.client:sent_payloads()
+	lu.assertEquals(#payload, 2)
+
+	lu.assertEquals(get_value_of_last_sent_content("is_new_timer"), false)
+	lu.assertNotEquals(get_value_of_last_sent_content("total_time"), 0)
+	lu.assertNotEquals(get_value_of_last_sent_content("max_memory_usage_during_total_time"), 0)
+	lu.assertNotEquals(get_value_of_last_sent_content("time_since_last_call"), 0)
+	lu.assertNotEquals(get_value_of_last_sent_content("max_memory_usage_since_last_call"), 0)
+
+	os.execute("sleep 0.001")
+
+	self.ray.measure()
+
+	payload = self.client:sent_payloads()
+	lu.assertEquals(#payload, 3)
+	lu.assertTrue(
+		get_value_of_last_sent_content("total_time") >= get_value_of_last_sent_content("time_since_last_call")
+	)
+
+	self.ray.stop_time()
+
+	self.ray.measure()
+
+	payload = self.client:sent_payloads()
+	-- print(inspect(payload))
+	lu.assertEquals(#payload, 4)
+
+	lu.assertEquals(get_value_of_last_sent_content("is_new_timer"), true)
+	lu.assertEquals(get_value_of_last_sent_content("total_time"), 0)
+	lu.assertEquals(get_value_of_last_sent_content("max_memory_usage_during_total_time"), 0)
+	lu.assertEquals(get_value_of_last_sent_content("time_since_last_call"), 0)
+	lu.assertEquals(get_value_of_last_sent_content("max_memory_usage_since_last_call"), 0)
+end
+
+function TestRay:testCanMeasureUsingMultipleTimers()
+	self.ray.measure("my-timer")
+
+	lu.assertEquals(get_value_of_last_sent_content("name"), "my-timer")
+end
+
+function TestRay:testCanMeasureAClosure()
+	local closure = function()
+		os.execute("sleep 0.001")
+	end
+
+	self.ray.measure(closure)
+
+	local payload = self.client:sent_payloads()
+	lu.assertEquals(#payload, 1)
+
+	lu.assertNotEquals(get_value_of_last_sent_content("total_time"), 0)
+	lu.assertNotEquals(get_value_of_last_sent_content("max_memory_usage_during_total_time"), 0)
+	lu.assertNotEquals(get_value_of_last_sent_content("time_since_last_call"), 0)
+	lu.assertNotEquals(get_value_of_last_sent_content("max_memory_usage_since_last_call"), 0)
+end
+
+function TestRay:testRemoveANamedStopwatchWhenStoppingTime()
+	self.ray.measure("test-timer")
+
+	lu.assertNotNil(self.ray.stop_watches["test-timer"])
+
+	self.ray.stop_time("test-timer")
+
+	lu.assertNil(self.ray.stop_watches["test-timer"])
 end
